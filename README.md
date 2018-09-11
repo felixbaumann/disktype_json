@@ -1,119 +1,70 @@
-disktype: Disk Format Detection
----------------------------------------------------------------------------------------------------
+# disktype_json
 
-# Important 
+This is a modification of the disktype tool that yields results in JSON
+instead of plain text. 
+Like the original disktype tool, it's purpose is to analyse a given file,
+or disk and detect content like file systems, partitions, boot loaders etc.
 
-This is not the official disktype repository, nor does it track maintenance updates
-to the official repository. Unless you are involved in a project that I'm currently working on, you
-should go and get Christoph Pfisterer's official version at http://disktype.sourceforge.net/
-
-I created this fork to simplify access to a patched, updated version of disktype for my own purposes. 
-The current version of the fork applies the unattended-to Atari and BSD patches from the official respository,
-adds ext4 support adapted from the patch at 
-
-* https://github.com/Pardus-Linux/Packages/tree/master/system/base/disktype/files, 
-
-and exfat support from the patch at 
-
-* https://github.com/ericpaulbishop/gargoyle/tree/master/package/disktype/patches
-
-Additional support for Expert Witness Format files based on existing (but non-functional) patch is
-in progress in the dtewf branch.
-
-# Introduction 
-
-The purpose of disktype is to detect the content format of a disk or
-disk image. It knows about common file systems, partition tables, and
-boot codes.
-
-The program is written in C and is designed to compile on any modern
-Unix flavour. It is self-contained and in general works without
-special libraries or headers. Some system-dependent features can be
-used to gather additional information.
-
-
-# Installation
-
-GNU make is required to build disktype. The Makefile is set up to use
-GCC, but disktype should compile with any C compiler. To change the
-compiler, you can edit the Makefile or set the standard variables CC,
-CPPFLAGS, CFLAGS, LDFLAGS, and LIBS from the make command line.
-
-The Makefile uses uname to determine the system type and enables
-certain system-dependent features based on that. If you run into
-problems, you can disable all system-dependent features by setting the
-variable NOSYS, as in 'make NOSYS=1'.
-
-Running make in the src/ directory results in the binary 'disktype'. Copy it to a 'bin'
-directory of your choice, optionally stripping it on the way. It does
-not require any additional files.
-
-The manual page 'disktype.1' can be copied to
-/usr/local/share/man/man1 or a similar directory that is suitable for
-your system and policy. If you package disktype for binary
-distribution, please also include the README, HISTORY, TODO, and
-LICENSE files in a place like /usr/share/doc/disktype.
 
 
 # Usage
 
-The 'disktype' program can be run with any number of regular files or
-device special files as arguments. They will be analyzed in the order
-given, and the results printed to standard output. There are no
-switches in this version. Note that running disktype on device files
-like your hard disk will likely require root rights.
+Install disktype using gnu make.
 
-See the online documentation at <http://disktype.sourceforge.net/doc/>
-for some example command lines (or view the same pages offline in
-the doc/ directory in this repository).
+Call the disktype tool with the file to be analysed as argument.
+Use | json_pp for a formated output.
 
+Check misc/file-system-sampler/ for some example images.
 
-# Recognized Formats
-
-The following formats are recognized by this version of disktype.
-
-File systems: FAT12/FAT16/FAT32, ExFAT, NTFS, HPFS, MFS, HFS, HFS Plus,
-  ISO9660, ext2/ext3/ext4, Minix, ReiserFS, Reiser4, Linux romfs, Linux
-  cramfs, Linux squashfs, UFS (some variations), SysV FS (some
-  variations), JFS, XFS, Amiga FS/FFS, Amiga SFS, Amiga PFS, BeOS BFS,
-  QNX4 FS, UDF, 3DO CD-ROM file system, Veritas VxFS, Xbox DVD file
-  system.
-
-Partitioning: DOS/PC style, EFI GPT, Apple, Amiga "Rigid Disk", ATARI
-  ST (AHDI3), BSD disklabel, Linux RAID physical disks, Linux LVM1
-  physical volumes, Linux LVM2 physical volumes, Solaris x86 disklabel
-  (vtoc), Solaris SPARC disklabel.
-
-Other structures: Debian split floppy header, Linux swap.
-
-Disk images: Raw CD image (.bin), Virtual PC hard disk image, Apple
-  UDIF disk image (limited), Linux cloop (limited).
-
-Boot loaders: LILO, GRUB, SYSLINUX, ISOLINUX, Linux kernel, FreeBSD
-  loader, Windows/MS-DOS loader, BeOS loader, Haiku loader, Sega
-  Dreamcast.
-
-Compression formats: gzip, compress, bzip2.
-
-Archive formats: tar, cpio, bar, dump/restore.
+See web/doc/ and web/index.html for documentation about the original disktype
+tool by Christoph Pfisterer.
 
 
-Compressed files (gzip, compress, bzip2 formats) will also have their
-contents analyzed using transparent decompression. The appropriate
-compression program must be installed on the system, i.e. 'gzip' for
-the gzip and compress formats, 'bzip2' for the bzip2 format.
 
-Disk images in general will also have their contents analyzed using
-the proper mapping, with the exception of the Apple UDIF format.
+# JSON output
 
-See the online documentation at <http://disktype.sourceforge.net/doc/>
-for more details on the supported formats and their quirks (or view the 
-same pages offline in the doc/ directory in this repository).
+disktype will yield a single JSON object, containing some general information
+about the given file as well as a content list.
+
+Each object in the content list (content object) represents a detected
+structure. Each of those have a name and refer to a wikidata entry.
+Furthermore, they have a set of properties and another content list,
+containing content objects found within this structure and so on.
+
+A list of all potentially detected content objects is found in
+"list_of_content_objects".
 
 
-# Maintenance and Planned Updates
 
-This fork of disktype is intended to address ongoing community needs.
-If you find a file system or disk image that it doesn't currently
-cover, please add a comment as an "Issue" in this repository.
+# Properties
+
+Each content object may have properties like the size of a file system
+or the number of entries in a partition map.
+
+A property constists of a name and a value of a specified domain.
+
+Each content object type has some individual list of properties for all its
+instances. Depending on disktypes discoveries not all of the properties will
+actually be filled with values though.
+
+To ease the use of properties, they will be inherited according to wikidata's
+"instance of" and "subclass of" statements.
+
+That says, a "ReiserFS" content object according to wikidata is an
+instance of a "journaling file system" which again is a subclass of 
+"file system".
+Therefore a "ReiserFS" content object will share all the properties of 
+"journaling file system" as well as "file system".
+On top of that, it may have some individual properties.
+
+A list of all potential properties for each content object type 
+will also be provided.
+
+
+
+# Comparison between JSON and plain text output
+
+The global header file contains a statement "#define JSON".
+Commenting this out and rebuilding the tool will make disktype yield 
+its results in the old way, using plain text instead of JSON.
 

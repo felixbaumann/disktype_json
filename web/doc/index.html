@@ -1,5 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>disktype Documentation</title><meta name="generator" content="DocBook XSL Stylesheets V1.69.1"><meta name="description" content="
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>disktype Documentation</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1">
+    <meta name="description" content="
 This is the documentation for disktype, a program
 to detect the content format of a disk or disk image.
 It covers installation and usage of the program,
@@ -8,7 +13,12 @@ on the recognized file systems and other formats.
 That information is useful both for interpreting
 disktype output and for general reference.
 Pointers to further documentation are included where possible.
-"><link rel="start" href="index.html" title="disktype Documentation"><link rel="next" href="ch01.html" title="Chapter 1. Installation and Usage"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">disktype Documentation</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch01.html">Next</a></td></tr></table><hr></div><div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id892106"></a>disktype Documentation</h1></div><div><div class="author"><h3 class="author"><span class="firstname">Christoph</span> <span class="surname">Pfisterer</span></h3></div></div><div><p class="copyright">Copyright © 2003, 2004, 2006 Christoph Pfisterer</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>
+">
+    <link rel="start" href="index.html" title="disktype Documentation">
+    <link rel="next" href="ch01.html" title="Chapter 1. Installation and Usage">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">disktype Documentation</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch01.html">Next</a></td></tr></table><hr></div><div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="id892106"></a>disktype Documentation</h1></div><div><div class="author"><h3 class="author"><span class="firstname">Christoph</span> <span class="surname">Pfisterer</span></h3></div></div><div><p class="copyright">Copyright © 2003, 2004, 2006 Christoph Pfisterer</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>
 This is the documentation for <span><strong class="command">disktype</strong></span>, a program
 to detect the content format of a disk or disk image.
 It covers installation and usage of the program,
@@ -17,4 +27,307 @@ on the recognized file systems and other formats.
 That information is useful both for interpreting
 <span><strong class="command">disktype</strong></span> output and for general reference.
 Pointers to further documentation are included where possible.
-</p></div></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="chapter"><a href="ch01.html">1. Installation and Usage</a></span></dt><dd><dl><dt><span class="section"><a href="ch01s01.html">1.1. Installation</a></span></dt><dt><span class="section"><a href="ch01s02.html">1.2. Usage</a></span></dt><dt><span class="section"><a href="ch01s03.html">1.3. Usage Examples</a></span></dt><dt><span class="section"><a href="ch01s04.html">1.4. Device Naming</a></span></dt></dl></dd><dt><span class="chapter"><a href="ch02.html">2. Coming To Terms</a></span></dt><dd><dl><dt><span class="section"><a href="ch02s01.html">2.1. Byte Ordering</a></span></dt><dt><span class="section"><a href="ch02s02.html">2.2. Sectors and Blocks</a></span></dt><dt><span class="section"><a href="ch02s03.html">2.3. Drive Geometry Cruft</a></span></dt><dt><span class="section"><a href="ch02s04.html">2.4. Partitioning</a></span></dt><dt><span class="section"><a href="ch02s05.html">2.5. Superblocks and Spacing</a></span></dt><dt><span class="section"><a href="ch02s06.html">2.6. Inodes and Links</a></span></dt><dt><span class="section"><a href="ch02s07.html">2.7. Block Allocation</a></span></dt></dl></dd><dt><span class="chapter"><a href="ch03.html">3. Recognized Formats</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s01.html">3.1. Amiga</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s01.html#id894393">3.1.1. The Amiga File System</a></span></dt><dt><span class="section"><a href="ch03s01.html#id894441">3.1.2. The Professional File System</a></span></dt><dt><span class="section"><a href="ch03s01.html#id894458">3.1.3. The Rigid Disk Partitioning Scheme</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s02.html">3.2. Apple Macintosh</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s02.html#id894521">3.2.1. The Macintosh File System (MFS)</a></span></dt><dt><span class="section"><a href="ch03s02.html#id894545">3.2.2. The Hierarchical File System (HFS)</a></span></dt><dt><span class="section"><a href="ch03s02.html#id894577">3.2.3. The HFS Plus File System</a></span></dt><dt><span class="section"><a href="ch03s02.html#id894642">3.2.4. The Apple Partitioning Scheme</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s03.html">3.3. ATARI ST</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s03.html#id894687">3.3.1. The GEMDOS File System</a></span></dt><dt><span class="section"><a href="ch03s03.html#id894724">3.3.2. The ATARI ST (AHDI) Partitioning Scheme</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s04.html">3.4. General PC Formats</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s04.html#id894772">3.4.1. PC-style Partition Tables</a></span></dt><dt><span class="section"><a href="ch03s04.html#id894836">3.4.2. EFI GPT Partition Table</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s05.html">3.5. Linux File Systems</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s05.html#id894875">3.5.1. ext2 and ext3</a></span></dt><dt><span class="section"><a href="ch03s05.html#id894929">3.5.2. ReiserFS</a></span></dt><dt><span class="section"><a href="ch03s05.html#id894965">3.5.3. Reiser4</a></span></dt><dt><span class="section"><a href="ch03s05.html#id894982">3.5.4. Minix</a></span></dt><dt><span class="section"><a href="ch03s05.html#id895017">3.5.5. romfs</a></span></dt><dt><span class="section"><a href="ch03s05.html#id895044">3.5.6. cramfs</a></span></dt><dt><span class="section"><a href="ch03s05.html#id895081">3.5.7. squashfs</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s06.html">3.6. Other Linux Formats</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s06.html#id895119">3.6.1. Linux Swap</a></span></dt><dt><span class="section"><a href="ch03s06.html#id895160">3.6.2. Linux LVM Physical Volumes</a></span></dt><dt><span class="section"><a href="ch03s06.html#id895197">3.6.3. Linux RAID Physical Disks</a></span></dt><dt><span class="section"><a href="ch03s06.html#id895226">3.6.4. Debian Split Floppy</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s07.html">3.7. Microsoft</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s07.html#fmt_fat">3.7.1. FAT12, FAT16, and FAT32</a></span></dt><dt><span class="section"><a href="ch03s07.html#id895331">3.7.2. NTFS</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s08.html">3.8. IBM</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s08.html#id895386">3.8.1. HPFS</a></span></dt><dt><span class="section"><a href="ch03s08.html#id895408">3.8.2. JFS</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s09.html">3.9. Other Unix Flavors</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s09.html#id895453">3.9.1. UFS</a></span></dt><dt><span class="section"><a href="ch03s09.html#id895480">3.9.2. BSD Disklabels</a></span></dt><dt><span class="section"><a href="ch03s09.html#id895593">3.9.3. System V FS</a></span></dt><dt><span class="section"><a href="ch03s09.html#id895625">3.9.4. XFS</a></span></dt><dt><span class="section"><a href="ch03s09.html#id895653">3.9.5. Solaris SPARC Disklabel</a></span></dt><dt><span class="section"><a href="ch03s09.html#id895677">3.9.6. Solaris x86 Disklabel</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s10.html">3.10. Miscellaneous Systems</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s10.html#id895707">3.10.1. BeOS BFS</a></span></dt><dt><span class="section"><a href="ch03s10.html#id895731">3.10.2. QNX RTOS</a></span></dt><dt><span class="section"><a href="ch03s10.html#id895760">3.10.3. Veritas VxFS</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s11.html">3.11. CD File Systems</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s11.html#id895786">3.11.1. ISO9660</a></span></dt><dt><span class="section"><a href="ch03s11.html#id895837">3.11.2. The Joliet Extension</a></span></dt><dt><span class="section"><a href="ch03s11.html#id895863">3.11.3. The RockRidge Extension</a></span></dt><dt><span class="section"><a href="ch03s11.html#fmt_hybrid">3.11.4. Hybrid PC/Macintosh CDs</a></span></dt><dt><span class="section"><a href="ch03s11.html#id895913">3.11.5. The El Torito Boot Specification</a></span></dt><dt><span class="section"><a href="ch03s11.html#id895949">3.11.6. UDF</a></span></dt><dt><span class="section"><a href="ch03s11.html#id896008">3.11.7. Sega Dreamcast</a></span></dt><dt><span class="section"><a href="ch03s11.html#id896030">3.11.8. Xbox DVD file system</a></span></dt><dt><span class="section"><a href="ch03s11.html#id896048">3.11.9. 3DO file system</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s12.html">3.12. Boot Loaders</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s12.html#id896117">3.12.1. GRUB</a></span></dt><dt><span class="section"><a href="ch03s12.html#id896171">3.12.2. FreeBSD</a></span></dt><dt><span class="section"><a href="ch03s12.html#id896231">3.12.3. Windows and MS-DOS</a></span></dt><dt><span class="section"><a href="ch03s12.html#id896248">3.12.4. BeOS and derivatives</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s13.html">3.13. Disk Image Formats</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s13.html#id896292">3.13.1. Raw CD Images</a></span></dt><dt><span class="section"><a href="ch03s13.html#fmt_apple_images">3.13.2. Apple Disk Images</a></span></dt><dt><span class="section"><a href="ch03s13.html#id896410">3.13.3. Linux cloop Images</a></span></dt><dt><span class="section"><a href="ch03s13.html#id896441">3.13.4. Virtual PC Disk Images</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s14.html">3.14. Archive Formats</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s14.html#id896492">3.14.1. tar</a></span></dt><dt><span class="section"><a href="ch03s14.html#id896525">3.14.2. cpio</a></span></dt><dt><span class="section"><a href="ch03s14.html#id896544">3.14.3. dump/restore</a></span></dt><dt><span class="section"><a href="ch03s14.html#id896565">3.14.4. bar</a></span></dt></dl></dd><dt><span class="section"><a href="ch03s15.html">3.15. Compression Formats</a></span></dt><dd><dl><dt><span class="section"><a href="ch03s15.html#id896606">3.15.1. compress</a></span></dt><dt><span class="section"><a href="ch03s15.html#id896625">3.15.2. gzip</a></span></dt><dt><span class="section"><a href="ch03s15.html#id896652">3.15.3. bzip2</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="ch04.html">4. Other Sources of Information</a></span></dt></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>1.1. <a href="ch01s04.html#id892388">Device Name Examples</a></dt></dl></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch01.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"> </td><td width="40%" align="right" valign="top"> Chapter 1. Installation and Usage</td></tr></table></div></body></html>
+</p></div></div></div><hr></div>
+    <div class="toc"><p><b>Table of Contents</b></p><dl>
+        <dt><span class="chapter"><a href="ch01.html">1. Installation and Usage</a></span></dt>
+        <dd><dl>
+            <dt><span class="section"><a href="ch01s01.html">1.1. Installation</a></span></dt>
+            <dt><span class="section"><a href="ch01s02.html">1.2. Usage</a></span></dt>
+            <dt><span class="section"><a href="ch01s03.html">1.3. Usage Examples</a></span></dt>
+            <dt><span class="section"><a href="ch01s04.html">1.4. Device Naming</a></span></dt>
+        </dl></dd>
+        <dt><span class="chapter"><a href="ch02.html">2. Coming To Terms</a></span></dt>
+        <dd><dl>
+            <dt><span class="section"><a href="ch02s01.html">2.1. Byte Ordering</a></span></dt>
+            <dt><span class="section"><a href="ch02s02.html">2.2. Sectors and Blocks</a></span></dt>
+            <dt><span class="section"><a href="ch02s03.html">2.3. Drive Geometry Cruft</a></span></dt>
+            <dt><span class="section"><a href="ch02s04.html">2.4. Partitioning</a></span></dt>
+            <dt><span class="section"><a href="ch02s05.html">2.5. Superblocks and Spacing</a></span></dt>
+            <dt><span class="section"><a href="ch02s06.html">2.6. Inodes and Links</a></span></dt>
+            <dt><span class="section"><a href="ch02s07.html">2.7. Block Allocation</a></span></dt>
+        </dl></dd>
+        <dt><span class="chapter"><a href="ch03.html">3. Recognized Formats</a></span></dt>
+        <dd><dl>
+            <dt><span class="section"><a href="ch03s01.html">3.1. Amiga</a></span></dt>
+            <dd><dl><dt><span class="section"><a href="ch03s01.html#id894393">3.1.1. The Amiga File System</a></span></dt>
+                <dt><span class="section"><a href="ch03s01.html#id894441">3.1.2. The Professional File System</a></span></dt>
+                <dt><span class="section"><a href="ch03s01.html#id894458">3.1.3. The Rigid Disk Partitioning Scheme</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s02.html">3.2. Apple Macintosh</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s02.html#id894521">3.2.1. The Macintosh File System (MFS)</a></span></dt>
+                <dt><span class="section"><a href="ch03s02.html#id894545">3.2.2. The Hierarchical File System (HFS)</a></span></dt>
+                <dt><span class="section"><a href="ch03s02.html#id894577">3.2.3. The HFS Plus File System</a></span></dt>
+                <dt><span class="section"><a href="ch03s02.html#id894642">3.2.4. The Apple Partitioning Scheme</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s03.html">3.3. ATARI ST</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s03.html#id894687">3.3.1. The GEMDOS File System</a></span></dt>
+                <dt><span class="section"><a href="ch03s03.html#id894724">3.3.2. The ATARI ST (AHDI) Partitioning Scheme</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s04.html">3.4. General PC Formats</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s04.html#id894772">3.4.1. PC-style Partition Tables</a></span></dt>
+                <dt><span class="section"><a href="ch03s04.html#id894836">3.4.2. EFI GPT Partition Table</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s05.html">3.5. Linux File Systems</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s05.html#id894875">3.5.1. ext2 and ext3</a></span></dt>
+                <dt><span class="section"><a href="ch03s05.html#id894929">3.5.2. ReiserFS</a></span></dt>
+                <dt><span class="section"><a href="ch03s05.html#id894965">3.5.3. Reiser4</a></span></dt>
+                <dt><span class="section"><a href="ch03s05.html#id894982">3.5.4. Minix</a></span></dt>
+                <dt><span class="section"><a href="ch03s05.html#id895017">3.5.5. romfs</a></span></dt>
+                <dt><span class="section"><a href="ch03s05.html#id895044">3.5.6. cramfs</a></span></dt>
+                <dt><span class="section"><a href="ch03s05.html#id895081">3.5.7. squashfs</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s06.html">3.6. Other Linux Formats</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s06.html#id895119">3.6.1. Linux Swap</a></span></dt>
+                <dt><span class="section"><a href="ch03s06.html#id895160">3.6.2. Linux LVM Physical Volumes</a></span></dt>
+                <dt><span class="section"><a href="ch03s06.html#id895197">3.6.3. Linux RAID Physical Disks</a></span></dt>
+                <dt><span class="section"><a href="ch03s06.html#id895226">3.6.4. Debian Split Floppy</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s07.html">3.7. Microsoft</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s07.html#fmt_fat">3.7.1. FAT12, FAT16, and FAT32</a></span></dt>
+                <dt><span class="section"><a href="ch03s07.html#id895331">3.7.2. NTFS</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s08.html">3.8. IBM</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s08.html#id895386">3.8.1. HPFS</a></span></dt>
+                <dt><span class="section"><a href="ch03s08.html#id895408">3.8.2. JFS</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s09.html">3.9. Other Unix Flavors</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s09.html#id895453">3.9.1. UFS</a></span></dt>
+                <dt><span class="section"><a href="ch03s09.html#id895480">3.9.2. BSD Disklabels</a></span></dt>
+                <dt><span class="section"><a href="ch03s09.html#id895593">3.9.3. System V FS</a></span></dt>
+                <dt><span class="section"><a href="ch03s09.html#id895625">3.9.4. XFS</a></span></dt>
+                <dt><span class="section"><a href="ch03s09.html#id895653">3.9.5. Solaris SPARC Disklabel</a></span></dt>
+                <dt><span class="section"><a href="ch03s09.html#id895677">3.9.6. Solaris x86 Disklabel</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s10.html">3.10. Miscellaneous Systems</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s10.html#id895707">3.10.1. BeOS BFS</a></span></dt>
+                <dt><span class="section"><a href="ch03s10.html#id895731">3.10.2. QNX RTOS</a></span></dt>
+                <dt><span class="section"><a href="ch03s10.html#id895760">3.10.3. Veritas VxFS</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s11.html">3.11. CD File Systems</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s11.html#id895786">3.11.1. ISO9660</a></span></dt>
+                <dt><span class="section"><a href="ch03s11.html#id895837">3.11.2. The Joliet Extension</a></span></dt>
+                <dt><span class="section"><a href="ch03s11.html#id895863">3.11.3. The RockRidge Extension</a></span></dt>
+                <dt><span class="section"><a href="ch03s11.html#fmt_hybrid">3.11.4. Hybrid PC/Macintosh CDs</a></span></dt>
+                <dt><span class="section"><a href="ch03s11.html#id895913">3.11.5. The El Torito Boot Specification</a></span></dt>
+                <dt><span class="section"><a href="ch03s11.html#id895949">3.11.6. UDF</a></span></dt>
+                <dt><span class="section"><a href="ch03s11.html#id896008">3.11.7. Sega Dreamcast</a></span></dt>
+                <dt><span class="section"><a href="ch03s11.html#id896030">3.11.8. Xbox DVD file system</a></span></dt>
+                <dt><span class="section"><a href="ch03s11.html#id896048">3.11.9. 3DO file system</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s12.html">3.12. Boot Loaders</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s12.html#id896117">3.12.1. GRUB</a></span></dt>
+                <dt><span class="section"><a href="ch03s12.html#id896171">3.12.2. FreeBSD</a></span></dt>
+                <dt><span class="section"><a href="ch03s12.html#id896231">3.12.3. Windows and MS-DOS</a></span></dt>
+                <dt><span class="section"><a href="ch03s12.html#id896248">3.12.4. BeOS and derivatives</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s13.html">3.13. Disk Image Formats</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s13.html#id896292">3.13.1. Raw CD Images</a></span></dt>
+                <dt><span class="section"><a href="ch03s13.html#fmt_apple_images">3.13.2. Apple Disk Images</a></span></dt>
+                <dt><span class="section"><a href="ch03s13.html#id896410">3.13.3. Linux cloop Images</a></span></dt>
+                <dt><span class="section"><a href="ch03s13.html#id896441">3.13.4. Virtual PC Disk Images</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s14.html">3.14. Archive Formats</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s14.html#id896492">3.14.1. tar</a></span></dt>
+                <dt><span class="section"><a href="ch03s14.html#id896525">3.14.2. cpio</a></span></dt>
+                <dt><span class="section"><a href="ch03s14.html#id896544">3.14.3. dump/restore</a></span></dt>
+                <dt><span class="section"><a href="ch03s14.html#id896565">3.14.4. bar</a></span></dt>
+            </dl></dd>
+            <dt><span class="section"><a href="ch03s15.html">3.15. Compression Formats</a></span></dt>
+            <dd><dl>
+                <dt><span class="section"><a href="ch03s15.html#id896606">3.15.1. compress</a></span></dt>
+                <dt><span class="section"><a href="ch03s15.html#id896625">3.15.2. gzip</a></span></dt>
+                <dt><span class="section"><a href="ch03s15.html#id896652">3.15.3. bzip2</a></span></dt>
+            </dl></dd>
+        </dl></dd>
+        <dt><span class="chapter"><a href="ch04.html">4. Other Sources of Information</a></span></dt>
+        <!-- -->
+
+        <dt><span class="chapter"><a href="ch05.html">5. JSON Modification</a></span></dt>
+        <dd>
+
+
+            <dl>
+                <dt><span class="section"><a href="ch05s01.html">5.1. Usage</a></span></dt>
+                <dt><span class="section"><a href="ch05s02.html">5.2. Output Hierarchy</a></span></dt>
+                <dt><span class="section"><a href="ch05s03.html">5.3. Content Objects</a></span></dt>
+                <dt><span class="section"><a href="ch05s04.html">5.4. Content Objects List</a></span></dt>
+                <dd>
+                    <dl>
+                        <!-- ch05s04_01.html -->
+                        <dt><span class="section"><a href="ch05s04_01.html#id5.4.1.">5.4.1 Amiga Unix</a></span></dt>
+                        <dt><span class="section"><a href="ch05s04_01.html#id5.4.2.">5.4.2 Blank</a></span></dt>
+                        <dt><span class="section"><a href="ch05s04_01.html#id5.4.3.">5.4.3 Boot disk</a></span></dt>
+                        <!-- ch05s04_02.html -->
+                        <dt><span class="section"><a href="ch05s04_02.html">5.4.4. Boot loader</a></span></dt>
+                        <dd>
+                            <dl>
+                                <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.1.">5.4.4.1. FreeBSD boot loader</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.2.">5.4.4.2. GRUB boot loader</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.3.">5.4.4.3. LILO boot loader</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.4.">5.4.4.4. Linux kernel built-in loader</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.5.">5.4.4.5. MS-DOS boot loader</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.6.">5.4.4.6. SYSLINUX boot loader</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.7.">5.4.4.7. Windows 9x boot loader</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.8.">5.4.4.8. Windows NTLDR</a></span></dt>
+                            </dl>
+                        </dd>
+                        <!-- ch05s04_03.html -->
+                        <dt><span class="section"><a href="ch05s04_03.html#id5.4.5.">5.4.5 Bootman</a></span></dt>
+                        <dt><span class="section"><a href="ch05s04_03.html#id5.4.6.">5.4.6 BSD</a></span></dt>
+                        <dt><span class="section"><a href="ch05s04_03.html#id5.4.7.">5.4.7 BSD Disklabel</a></span></dt>
+                        <dd>
+                            <dl>
+                                <dt><span class="section"><a href="ch05s04_03.html#id5.4.7.1.">5.3.7.1 Solaris Disklabel</a></span></dt>
+                            </dl>
+                        </dd>
+                        <!-- ch05s04_04.html -->
+                        <dt><span class="section"><a href="ch05s04_04.html#id5.4.8.">5.4.8. Compact Disk</a></span></dt>
+                        <dd>
+                            <dl>
+                                <dt><span class="section"><a href="ch05s04_04.html#id5.4.8.1.">5.4.8.1. Audio CD</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_04.html#id5.4.8.2.">5.4.8.2. CD-ROM</a></span></dt>
+                            </dl>
+                        </dd>
+                        <dt><span class="section"><a href="ch05s04_04.html#id5.4.9.">5.4.9. Debian split floppy</a></span></dt>
+                        <dt><span class="section"><a href="ch05s04_04.html#id5.4.10.">5.4.10. Ext3 external journal</a></span></dt>
+                        <!-- ch05s04_05.html -->
+                        <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.">5.4.11. File Format</a></span></dt>
+                        <dd>
+                            <dl>
+                                <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.">5.4.11.1. Archive file format</a></span></dt>
+                                <dd>
+                                    <dl>
+                                        <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.1.">5.4.11.1.1. Broker archive</a></span></dt>
+                                        <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.2.">5.4.11.1.2. Cloop image</a></span></dt>
+                                        <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.3.">5.4.11.1.3. Disk Image</a></span></dt>
+                                        <dd>
+                                            <dl>
+                                                <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.3.1.">5.4.11.1.3.1. Apple UDIF disk image</a></span></dt>
+                                                <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.3.2.">5.4.11.1.3.2. Windows virtual PC disk image</a></span></dt>
+                                            </dl>
+                                        </dd>
+                                        <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.4.">5.4.11.1.4. tar archive</a></span></dt>
+                                    </dl>
+                                </dd>
+                                <!-- ch05s04_06.html -->
+                                <dt><span class="section"><a href="ch05s04_06.html#id5.4.11.2.">5.4.11.2. bzip2 archive</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_06.html#id5.4.11.3.">5.4.11.3. Compress file</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_06.html#id5.4.11.4.">5.4.11.4. Cpio archive</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_06.html#id5.4.11.5.">5.4.11.5. gzip archive</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_06.html#id5.4.11.6.">5.4.11.6. Raw CD image</a></span></dt>
+                            </dl>
+                        </dd>
+                        <!-- ch05s04_07.html -->
+                        <dt><span class="section"><a href="ch05s04_07.html#id5.4.12.">5.4.12. File System</a></span></dt>
+                        <dd>
+                            <dl>
+                                <dt><span class="section"><a href="ch05s04_07.html#id5.4.12.1.">5.4.12.1. Amiga Ami-File-Safe</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_07.html#id5.4.12.2.">5.4.12.2. Amiga Fast File System</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_07.html#id5.4.12.3.">5.4.12.3. Amiga Old File System</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_07.html#id5.4.12.4.">5.4.12.4. Amiga Professional File System</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_07.html#id5.4.12.5.">5.4.12.5. Amiga Smart File System</a></span></dt>
+                                <!-- ch05s04_08.html -->
+                                <dt><span class="section"><a href="ch05s04_08.html#id5.4.12.6.">5.4.12.6. Apple HFS</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_08.html#id5.4.12.7.">5.4.12.7. Apple HFS Plus</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_08.html#id5.4.12.8.">5.4.12.8. BeOS File System</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_08.html#id5.4.12.9.">5.4.12.9. Berkeley Fast File System</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_08.html#id5.4.12.10.">5.4.12.10. Boot File System</a></span></dt>
+                                <!-- ch05s04_09.html -->
+                                <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.11.">5.4.12.11. ExFAT</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.12.">5.4.12.12. Ext2</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.13.">5.4.12.13. FAT</a></span></dt>
+                                <dd>
+                                    <dl>
+                                        <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.13.1.">5.4.12.13.1. FAT12</a></span></dt>
+                                        <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.13.2.">5.4.12.13.2. FAT16</a></span></dt>
+                                        <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.13.3.">5.4.12.13.3. FAT32</a></span></dt>
+                                    </dl>
+                                </dd>
+                                <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.14.">5.4.12.14. FATX</a></span></dt>
+                                <!-- ch05s04_10.html -->
+                                <dt><span class="section"><a href="ch05s04_10.html#id5.4.12.15.">5.4.12.15. High Performance File System</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_10.html#id5.4.12.16.">5.4.12.16. High Sierra Format</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_10.html#id5.4.12.17.">5.4.12.17. ISO9660</a></span></dt>
+                                <!-- ch05s04_11.html -->
+                                <dt><span class="section"><a href="ch05s04_11.html#id5.4.12.18.">5.4.12.18. Journaled File System</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_11.html#id5.4.12.19.">5.4.12.19. Journaling File System</a></span></dt>
+                                <dd>
+                                    <dl>
+                                        <dt><span class="section"><a href="ch05s04_11.html#id5.4.12.19.1.">5.4.12.19.1. Ext3</a></span></dt>
+                                        <dt><span class="section"><a href="ch05s04_11.html#id5.4.12.19.2.">5.4.12.19.2. Ext4</a></span></dt>
+                                        <dt><span class="section"><a href="ch05s04_11.html#id5.4.12.19.3.">5.4.12.19.3. ReiserFS</a></span></dt>
+                                    </dl>
+                                </dd>
+                                <!-- ch05s04_12.html -->
+                                <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.20.">5.4.12.20. Linux cramfs</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.21.">5.4.12.21. Linux romfs</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.22.">5.4.12.22. Linux squashfs</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.23.">5.4.12.23. Macintosh File System</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.24.">5.4.12.24. MINIX</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.25.">5.4.12.25. NTFS</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.26.">5.4.12.26. Opera file system</a></span></dt>
+                                <!-- ch05s04_13.html -->
+                                <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.27.">5.4.12.27. QNX4 File System</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.28.">5.4.12.28. Reiser4</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.29.">5.4.12.29. Universal Disk Format</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.30.">5.4.12.30. Unix File System</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.31.">5.4.12.31. Veritas VxFS</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.32.">5.4.12.32. Xenix file system</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.33.">5.4.12.33. XFS</a></span></dt>
+                            </dl>
+                        </dd>
+                        <!-- ch05s04_14.html -->
+                        <dt><span class="section"><a href="ch05s04_14.html#id5.4.13.">5.4.13. Linux</a></span></dt>
+                        <dt><span class="section"><a href="ch05s04_14.html#id5.4.14.">5.4.14. Linux swap</a></span></dt>
+                        <dt><span class="section"><a href="ch05s04_14.html#id5.4.15.">5.4.15. LVM</a></span></dt>
+                        <dt><span class="section"><a href="ch05s04_14.html#id5.4.16.">5.4.16. MS-DOS</a></span></dt>
+                        <dt><span class="section"><a href="ch05s04_14.html#id5.4.17.">5.4.17. NetBSD</a></span></dt>
+
+                        <!-- ch05s04_15.html -->
+                        <dt><span class="section"><a href="ch05s04_15.html#id5.4.18.">5.4.18. Partition</a></span></dt>
+                        <dt><span class="section"><a href="ch05s04_15.html#id5.4.19.">5.4.19. Partition Table</a></span></dt>
+                        <dd>
+                            <dl>
+                                <dt><span class="section"><a href="ch05s04_15.html#id5.4.19.1.">5.4.19.1. Amiga rigid disk partition map</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_15.html#id5.4.19.2.">5.4.19.2. Apple partition map</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_15.html#id5.4.19.3.">5.4.19.3. Atari ST partition map</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_15.html#id5.4.19.4.">5.4.19.4. GPT partition map</a></span></dt>
+                                <dt><span class="section"><a href="ch05s04_15.html#id5.4.19.5.">5.4.19.5. MBR partition table</a></span></dt>
+                            </dl>
+                        </dd>
+
+                        <!-- ch05s04_16.html -->
+                        <dt><span class="section"><a href="ch05s04_16.html#id5.4.20.">5.4.20. RAID Disk</a></span></dt>
+                        <dt><span class="section"><a href="ch05s04_16.html#id5.4.21.">5.4.21. Track</a></span></dt>
+                        <dd>
+                            <dl>
+                                <dt><span class="section"><a href="ch05s04_16.html#id5.4.21.1.">5.4.21.1. Audio track</a></span></dt>
+                            </dl>
+                        </dd>
+                        <!-- ch05s04_17.html -->
+                        <dt><span class="section"><a href="ch05s04_17.html#id5.4.22.">5.4.22. Data types</a></span></dt>
+
+
+                    </dl>
+                </dd>
+                <dt><span class="section"><a href="ch05s05.html">5.5. Back to Plain Text Output</a></span></dt>
+            </dl>
+
+
+
+        </dd>
+        <!-- -->
+    </dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>1.1. <a href="ch01s04.html#id892388">Device Name Examples</a></dt></dl></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ch01.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top"> </td><td width="20%" align="center"> </td><td width="40%" align="right" valign="top"> Chapter 1. Installation and Usage</td></tr></table></div></body></html>

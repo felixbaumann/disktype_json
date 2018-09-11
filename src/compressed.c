@@ -3,6 +3,7 @@
  * Layered data source for compressed files.
  *
  * Copyright (c) 2003 Christoph Pfisterer
+ * Copyright (c) 2018 Felix Baumann on modifications
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -86,11 +87,23 @@ void detect_compressed(SECTION *section, int level)
 
     /* compress */
     if (buf[off] == 037 && buf[off+1] == 0235) {
-      if (sector > 0)
-	print_line(level, "compress-compressed data at sector %d", sector);
-      else
-	print_line(level, "compress-compressed data");
+        
+      #ifdef JSON
+      add_content_object(level, "compress file", "Q29209269");
+      #endif
 
+      if (sector > 0)
+      {
+	print_line(level, "compress-compressed data at sector %d", sector);
+        
+        #ifdef JSON
+        add_property_int("start_ector", sector);
+        #endif
+      }
+      else
+      {
+	print_line(level, "compress-compressed data");
+      }
       handle_compressed(section, level, off, "gzip");
 
       break;
@@ -98,11 +111,24 @@ void detect_compressed(SECTION *section, int level)
 
     /* gzip */
     if (buf[off] == 037 && (buf[off+1] == 0213 || buf[off+1] == 0236)) {
-      if (sector > 0)
-	print_line(level, "gzip-compressed data at sector %d", sector);
-      else
-	print_line(level, "gzip-compressed data");
 
+      #ifdef JSON
+      add_content_object(level, "gzip archive", "Q10287816");
+      #endif
+
+      if (sector > 0)
+      {
+	print_line(level, "gzip-compressed data at sector %d", sector);
+      
+        #ifdef JSON
+        add_property_int("start_sector", sector);
+        #endif
+          
+      }
+      else
+      {
+	print_line(level, "gzip-compressed data");
+      }
       handle_compressed(section, level, off, "gzip");
 
       break;
@@ -110,11 +136,23 @@ void detect_compressed(SECTION *section, int level)
 
     /* bzip2 */
     if (memcmp(buf + off, "BZh", 3) == 0) {
-      if (sector > 0)
-	print_line(level, "bzip2-compressed data at sector %d", sector);
-      else
-	print_line(level, "bzip2-compressed data");
 
+      #ifdef JSON
+      add_content_object(level, "bzip2 archive", "Q27866052");
+      #endif
+      
+      if (sector > 0)
+      {
+	print_line(level, "bzip2-compressed data at sector %d", sector);
+
+        #ifdef JSON
+        add_property_int("start_sector", sector);
+        #endif
+      }
+      else
+      {
+	print_line(level, "bzip2-compressed data");
+      }
       handle_compressed(section, level, off, "bzip2");
 
       break;

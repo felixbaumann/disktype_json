@@ -1,9 +1,7 @@
 /*
- * cloop.c
- * Layered data source for Linux cloop images.
+ * test.c
  *
- * Copyright (c) 2005 Christoph Pfisterer
- * Copyright (c) 2018 Felix Baumann on modifications
+ * Copyright (c) 2018 Felix Baumann
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -28,36 +26,57 @@
 
 #include "global.h"
 
-/*
- * image file detection
+#ifdef JSON
+
+/* This function compares two char arrays on equality.
+ * Returns 1 if equal and 0 else.
  */
-
-void detect_cloop(SECTION *section, int level)
+int equal_chars(char* first, char* second)
 {
-  unsigned char *buf;
-  u4 blocksize, blockcount;
-  char s[256];
-  const char *sig_20 = "#!/bin/sh\n#V2.0 Format\nmodprobe cloop";
-
-  /* check for signature */
-  if (get_buffer(section, 0, 256, (void **)&buf) < 256)
-    return;
-  if (memcmp(buf, sig_20, strlen(sig_20)) != 0)
-    return;
-
-  print_line(level, "Linux cloop 2.0 image");
-
-  blocksize = get_be_long(buf + 128);
-  blockcount = get_be_long(buf + 132);
-  format_blocky_size(s, blockcount, blocksize, "blocks", NULL);
-  print_line(level + 1, "Volume size %s", s);
-  
-  #ifdef JSON
-  add_content_object(level, "Cloop image", "Q55340914");
-
-  add_property_u8("volume_size", (u8) (blocksize * blockcount));
-  #endif
-
+    if (strlen(first) != strlen(second)) { return 0; }
+    
+    int max = strlen(first);
+    
+    for (int i = 0; i < max; i++)
+    {
+        if (first[i] != second[i]) { return 0; }
+    }
+    
+    return 1;
 }
+
+void test_equal_chars()
+{
+    assert(equal_chars("", ""));
+    assert(equal_chars("string", "string"));
+    assert(equal_chars(" \n", " \n"));
+
+    assert(!equal_chars(" ", ""));
+    assert(!equal_chars("string", "strin"));
+    assert(!equal_chars("tring", "string"));
+    assert(!equal_chars(" \n", " "));
+}
+
+/* Main function responsible for tests.
+ * Global.
+ */
+void test()
+{
+    test_equal_chars();
+    
+    test_amiga();
+    
+    test_cdaccess();
+    
+    test_vpc();
+    
+    test_json();
+    
+    test_string();
+    
+    /* call tests here */
+}
+
+#endif
 
 /* EOF */

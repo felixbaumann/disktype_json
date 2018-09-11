@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>5.4. File System III</title>                                <!-- adjust -->
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1">
+    <link rel="start" href="index.html" title="disktype Documentation">
+    <link rel="up" href="ch05.html" title="Chapter 5. JSON Modification">
+    <link rel="prev" href="ch05s04_08.html" title="5.4. File System II"> <!-- adjust -->
+    <link rel="next" href="ch05s04_010.html" title="5.4. File System IV">      <!-- adjust -->
+
+    <style>#in1 {margin-left: 5%;}</style>
+    <style>#in2 {margin-left: 10%;}</style>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="navheader"><table width="100%" summary="Navigation header"><tr>
+        <th colspan="3" align="center">5.4. File System III</th></tr>    <!-- adjust -->
+        <tr>
+        <td width="20%" align="left"><a accesskey="p" href="ch05s04_08.html">Prev</a> </td>    <!-- adjust -->
+        <th width="60%" align="center">Chapter 5. JSON Modification</th>
+        <td width="20%" align="right"> <a accesskey="n" href="ch05s04_10.html">Next</a></td></tr></table><hr></div> <!-- adjust -->
+    <div class="section" lang="en">
+        <div class="titlepage">
+        <div>
+            <div><h2 class="title" style="clear: both">5.4.12. File System</h2></div></div></div> <!-- adjust -->
+
+    <p>Wikidata id: Q174989</p>
+
+    <p><b>Individual Properties:</b></p>
+
+    <pre>
+    - block_size          {#unsigned long long}           (size of a single block / sector in bytes)
+    - volume_size         {#unsigned long long}           (total size of the file system in bytes)
+    - volume_name         {#char[256]}
+    - endianness          {little, big}
+    - version             {#int}
+    - UUID                {#char[256]}
+    - floppy_size         {DD, HD}                        (Does the volume_size match the size of a DD/HD floppy?)
+    - last_mounted        {#char[256]}                    (location of the last mounting)
+    </pre>
+
+    <!-- ExFAT -->
+    <section id="in1"> 
+        <a name="id5.4.12.11."></a>
+        <h1>5.4.12.11. ExFAT</h1>
+        Wikidata id: Q306233
+        <p>Instance of <i>File System</i>.</p>
+
+        <p>
+            <i>no properties</i>
+        </p>
+        <p>
+
+    Found in [dos.c]
+    </section>
+
+    <!-- Ext2 -->
+    <section id="in1"> 
+        <a name="id5.4.12.12."></a>
+        <h1>5.4.12.12. Ext2</h1>
+        Wikidata id: Q283527
+        <p>Instance of <i>File System</i>.</p>
+
+        <p>
+            <b>Inherited Properties:</b>
+        </p>
+    <pre>
+    + volume_name         (File System)
+    + UUID                (File System)
+    + last_mounted        (File System)
+    + volume_size         (File System)
+    + block_size          (File System) 
+    </pre>
+
+    Found in [linux.c, amiga.c]
+    </section>
+
+    <!-- FAT -->
+    <section id="in1"> 
+        <a name="id5.4.12.13."></a>
+        <h1>5.4.12.13. FAT</h1>
+        Wikidata id: Q190167
+        <p>Instance of <i>File System</i>.</p>
+
+        <p> It's seems to be hard to detect a FAT with certainty. 
+            There are several hints for the presence of a FAT though.
+            <b>disktype</b> searches for these hints and stores the result in <i>hints_score</i></p>
+        <p>
+            <b>Inherited Properties:</b>
+        </p>
+    <pre>
+    + volume_name       (File System)
+    + volume_size       (File System)
+    + block_size        (File System)
+    </pre>
+
+        <p>
+            <b>Individual Properties:</b>
+        </p>
+    <pre>
+    - cluster_size        {#unsigned long long}           (Size of one cluster in bytes. If identical to block_size, there's only one block in each cluster.)
+    - hints_score         {0, ... , 5}                    (The higher, the likelier it's actually a FAT.)
+    </pre>
+
+    </section>
+
+    <!-- FAT12 -->
+    <section id="in2"> 
+        <a name="id5.4.12.13.1."></a>
+        <h1>5.4.12.13.1. FAT12</h1>
+        Wikidata id: Q3063042
+        <p>Instance of <i>File System</i>.</p>
+
+        <p>
+            <b>Inherited Properties:</b>
+        </p>
+    <pre>
+    + volume_name     (FAT)
+    + volume_size     (FAT)
+    + cluster_size    (FAT)
+    + block_size      (FAT)
+    + hints_score     (FAT)
+    </pre>
+
+    <p>Found in [dos.c]</p>
+    </section>
+
+    <!-- FAT16 -->
+    <section id="in2"> 
+        <a name="id5.4.12.13.2."></a>
+        <h1>5.4.12.13.2. FAT16</h1>
+        Wikidata id: Q3141148
+        <p>Instance of <i>File System</i>.</p>
+
+        <p>
+            <b>Inherited Properties:</b>
+        </p>
+    <pre>
+    + volume_name     (FAT)
+    + volume_size     (FAT)
+    + cluster_size    (FAT)
+    + block_size      (FAT)
+    + hints_score     (FAT)
+    </pre>
+
+    <p>Found in [dos.c]</p>
+    </section>
+
+    <!-- FAT32 -->
+    <section id="in2"> 
+        <a name="id5.4.12.13.3."></a>
+        <h1>5.4.12.13.3. FAT32</h1>
+        Wikidata id: Q2622047
+        <p>Instance of <i>File System</i>.</p>
+
+        <p>
+            <b>Inherited Properties:</b>
+        </p>
+    <pre>
+    + volume_name     (FAT)
+    + volume_size     (FAT)
+    + cluster_size    (FAT)
+    + block_size      (FAT)
+    + hints_score     (FAT)
+    </pre>
+
+    <p>Found in [dos.c]</p>
+    </section>
+
+    <!-- FATX -->
+    <section id="in1"> 
+        <a name="id5.4.12.14."></a>
+        <h1>5.4.12.14. FATX</h1>
+        Wikidata id: Q25397999
+        <p>Instance of <i>File System</i>.</p>
+
+        <p>(Xbox DVD file system)</p>
+        <p>
+            <i>no properties</i>
+        </p>
+        <p>
+
+    Found in [dos.c]
+    </section>
+
+
+</div>
+   
+    
+    
+    <div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr>
+        <td width="40%" align="left"><a accesskey="p" href="ch05s04_08.html">Prev</a> </td>                   <!-- adjust -->
+        <td width="20%" align="center"><a accesskey="u" href="ch05s04.html">Up</a></td>                    <!-- adjust -->
+        <td width="40%" align="right"> <a accesskey="n" href="ch05s04_010.html">Next</a></td></tr>          <!-- adjust -->
+        <tr><td width="40%" align="left" valign="top">5.4. File System II </td>                      <!-- adjust -->
+        <td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+        <td width="40%" align="right" valign="top"> 5.4. File System IV</td></tr></table></div></body></html> <!-- adjust -->

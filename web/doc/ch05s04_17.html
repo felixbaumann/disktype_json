@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>5.4. Data types</title>                                <!-- adjust -->
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1">
+    <link rel="start" href="index.html" title="disktype Documentation">
+    <link rel="up" href="ch05.html" title="Chapter 5. JSON Modification">
+    <link rel="prev" href="ch05s04_16.html" title="RAID, Track"> <!-- adjust -->
+    <link rel="next" href="ch05s05.html" title="5.4. Back to Plain Text Output">      <!-- adjust -->
+
+    <style>#in1 {margin-left: 5%;}</style>
+    <style>#in2 {margin-left: 10%;}</style>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="navheader"><table width="100%" summary="Navigation header"><tr>
+        <th colspan="3" align="center">5.4. Data types</th></tr>    <!-- adjust -->
+        <tr>
+        <td width="20%" align="left"><a accesskey="p" href="ch05s04_16.html">Prev</a> </td>    <!-- adjust -->
+        <th width="60%" align="center">Chapter 5. JSON Modification</th>
+        <td width="20%" align="right"> <a accesskey="n" href="ch05s05.html">Next</a></td></tr></table><hr></div> <!-- adjust -->
+    <div class="section" lang="en">
+        <div class="titlepage">
+        <div>
+            <div><h2 class="title" style="clear: both"><a name="id5.4.22."></a>5.4.22. Data types</h2></div></div></div> <!-- adjust -->
+
+    <p>This section lists the domains of <i>bsd_type</i>, <i>gpt_type</i>, <i>mbr_type</i> and <i>vtoc_type</i>.</p>
+
+    <!-- bsd -->
+        <section id="in1">
+            <a name="id5.4.22.1."></a>
+            <h1>5.4.22.1. bsd_type</h1>
+    <pre>
+    bsd_types = {
+                    "Unused",
+                    "swap",
+                    "Sixth Edition",
+                    "Seventh Edition",
+                    "System V",
+                    "V7 with 1 KiB blocks",
+                    "Eighth Edition, 4 KiB blocks",
+                    "4.2BSD fast file system",
+                    "ext2 or MS-DOS",
+                    "4.4BSD log-structured file system",
+                    "\"Other\"",
+                    "HPFS",
+                    "ISO9660",
+                    "bootstrap",
+                    "AmigaDOS fast file system",
+                    "Macintosh HFS",
+                    "Digital Unix AdvFS",
+                    "Unknown"
+                }
+    </pre>
+        </section> 
+ 
+    <!-- gpt -->
+        <section id="in1">
+            <a name="id5.4.22.2."></a>
+            <h1>5.4.22.2. gpt_type</h1>
+    <pre>
+    gpt_types = {
+                    "EFI System (FAT)",
+                    "MBR partition scheme",
+                    "MS Reserved",
+                    "Basic Data",
+                    "MS LDM Metadata",
+                    "MS LDM Data",
+                    "HP/UX Data",
+                    "HP/UX Service",
+                    "Linux RAID",
+                    "Linux Swap",
+                    "Linux LVM",
+                    "Linux Reserved",
+                    "FreeBSD Data",
+                    "FreeBSD Swap",
+                    "FreeBSD UFS",
+                    "FreeBSD Vinum",
+                    "Mac HFS+",
+                    "Unknown"
+                }
+    </pre>
+        </section> 
+
+    <!-- mbr -->
+        <section id="in1">
+            <a name="id5.4.22.3."></a>
+            <h1>5.4.22.3. mbr_type</h1>
+    <pre>
+    mbr_types = {
+                    "Empty",
+                    "FAT12",
+                    "XENIX root",
+                    "XENIX usr",
+                    "FAT16 <32M",
+                    "Extended",
+                    "FAT16",
+                    "HPFS/NTFS",
+                    "AIX",
+                    "AIX bootable",
+                    "OS/2 Boot Manager",
+                    "Win95 FAT32",
+                    "Win95 FAT32 (LBA)",
+                    "Win95 FAT16 (LBA)",
+                    "Win95 Ext'd (LBA)",
+                    "OPUS",
+                    "Hidden FAT12",
+                    "Compaq diagnostics",
+                    "Hidden FAT16 <32M",
+                    "Hidden FAT16",
+                    "Hidden HPFS/NTFS",
+                    "AST SmartSleep",
+                    "Hidden Win95 FAT32",
+                    "Hidden Win95 FAT32 (LBA)",
+                    "Hidden Win95 FAT16 (LBA)",
+                    "NEC DOS",
+                    "Plan 9",
+                    "PartitionMagic recovery",
+                    "Venix 80286",
+                    "PPC PReP Boot",
+                    "SFS / MS LDM",
+                    "QNX4.x",
+                    "QNX4.x 2nd part",
+                    "QNX4.x 3rd part",
+                    "OnTrack DM",
+                    "OnTrack DM6 Aux1",
+                    "CP/M",
+                    "OnTrack DM6 Aux3",
+                    "OnTrackDM6",
+                    "EZ-Drive",
+                    "Golden Bow",
+                    "Priam Edisk",
+                    "SpeedStor",
+                    "GNU HURD or SysV",
+                    "Novell Netware 286",
+                    "Novell Netware 386",
+                    "DiskSecure Multi-Boot",
+                    "PC/IX",
+                    "XOSL",
+                    "Old Minix",
+                    "Minix / old Linux",
+                    "Linux swap / Solaris",
+                    "Linux",
+                    "OS/2 hidden C: drive",
+                    "Linux extended",
+                    "NTFS volume set",
+                    "NTFS volume set",
+                    "Linux LVM",
+                    "Amoeba",
+                    "Amoeba BBT",
+                    "BSD/OS",
+                    "IBM Thinkpad hibernation",
+                    "FreeBSD",
+                    "OpenBSD",
+                    "NeXTSTEP",
+                    "NetBSD",
+                    "Mac OS X",
+                    "BSDI fs",
+                    "BSDI swap",
+                    "Boot Wizard hidden",
+                    "DRDOS/sec (FAT-12)",
+                    "DRDOS/sec (FAT-16 < 32M)",
+                    "DRDOS/sec (FAT-16)",
+                    "Syrinx",
+                    "Non-FS data",
+                    "CP/M / CTOS / ...",
+                    "Dell Utility",
+                    "BootIt",
+                    "DOS access",
+                    "DOS R/O",
+                    "SpeedStor",
+                    "BeOS fs",
+                    "EFI GPT protective",
+                    "EFI System (FAT)",
+                    "Linux/PA-RISC boot",
+                    "SpeedStor",
+                    "SpeedStor",
+                    "DOS secondary",
+                    "Linux raid autodetect",
+                    "LANstep",
+                    "BBT",
+                    "Unknown"
+                }
+    </pre>
+        </section> 
+  
+    <!-- vtoc -->
+        <section id="in1">
+            <a name="id5.4.22.4."></a>
+            <h1>5.4.22.4. vtoc_type</h1>
+            <pre>
+    vtoc_types = {
+                    "Unused",
+                    "Boot",
+                    "Root",
+                    "Swap",
+                    "Usr",
+                    "Overlap",
+                    "Stand",
+                    "Var",
+                    "Home",
+                    "Alternate sector",
+                    "Cache",
+                    "Unknown"
+                }
+    </pre>
+        </section> 
+</div>
+   
+    
+    
+    <div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr>
+        <td width="40%" align="left"><a accesskey="p" href="ch05s04_16.html">Prev</a> </td>                   <!-- adjust -->
+        <td width="20%" align="center"><a accesskey="u" href="ch05s04.html">Up</a></td>                    <!-- adjust -->
+        <td width="40%" align="right"> <a accesskey="n" href="ch05s05.html">Next</a></td></tr>          <!-- adjust -->
+        <tr><td width="40%" align="left" valign="top">5.4. RAID, Track </td>                      <!-- adjust -->
+        <td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+        <td width="40%" align="right" valign="top"> 5.5. Back to Plain Text Output</td></tr></table></div></body></html> <!-- adjust -->

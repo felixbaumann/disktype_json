@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>5.4. File System VI</title>                                <!-- adjust -->
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1">
+    <link rel="start" href="index.html" title="disktype Documentation">
+    <link rel="up" href="ch05.html" title="Chapter 5. JSON Modification">
+    <link rel="prev" href="ch05s04_11.html" title="5.4. File System V"> <!-- adjust -->
+    <link rel="next" href="ch05s04_013.html" title="5.4. File System VII">      <!-- adjust -->
+
+    <style>#in1 {margin-left: 5%;}</style>
+    <style>#in2 {margin-left: 10%;}</style>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="navheader"><table width="100%" summary="Navigation header"><tr>
+        <th colspan="3" align="center">5.4. File System VI</th></tr>    <!-- adjust -->
+        <tr>
+        <td width="20%" align="left"><a accesskey="p" href="ch05s04_11.html">Prev</a> </td>    <!-- adjust -->
+        <th width="60%" align="center">Chapter 5. JSON Modification</th>
+        <td width="20%" align="right"> <a accesskey="n" href="ch05s04_13.html">Next</a></td></tr></table><hr></div> <!-- adjust -->
+    <div class="section" lang="en">
+        <div class="titlepage">
+        <div>
+            <div><h2 class="title" style="clear: both">5.4.12. File System</h2></div></div></div> <!-- adjust -->
+
+    <p>Wikidata id: Q174989</p>
+
+    <p><b>Individual Properties:</b></p>
+
+    <pre>
+    - block_size          {#unsigned long long}           (size of a single block / sector in bytes)
+    - volume_size         {#unsigned long long}           (total size of the file system in bytes)
+    - volume_name         {#char[256]}
+    - endianness          {little, big}
+    - version             {#int}
+    - UUID                {#char[256]}
+    - floppy_size         {DD, HD}                        (Does the volume_size match the size of a DD/HD floppy?)
+    - last_mounted        {#char[256]}                    (location of the last mounting)
+    </pre>
+
+
+ 
+    <!-- Linux cramfs -->
+    <section id="in1"> 
+        <a name="id5.4.12.20."></a>
+        <h1>5.4.12.20. Linux cramfs</h1>
+        Wikidata id: Q747406
+        <p>Instance of <i>File System</i>.</p>
+
+        <p>
+            <b>Inherited Properties:</b>
+        </p>
+    <pre>
+    + block_size  	      (File System)          {4096}     (cramfs has always a blocksize of 4KB)
+    + endianness          (File System)
+    + volume_name         (File System)
+    </pre>
+
+        <p>
+            <b>Individual Properties:</b>
+        </p>
+    <pre>
+    - start_sector        {#int}
+    - compressed_size     {#unsigned long long}
+    - data_size           {#unsigned long long}
+    </pre>
+
+    <p>Found in [linux.c]</p>
+    </section>
+
+    <!-- Linux romfs -->
+    <section id="in1"> 
+        <a name="id5.4.12.21."></a>
+        <h1>5.4.12.21. Linux romfs</h1>
+        Wikidata id: Q16963448
+        <p>Instance of <i>File System</i>.</p>
+
+        <p>
+            <b>Inherited Properties:</b>
+        </p>
+    <pre>
+    + volume_name         (File System)     {#char[301]}    (volume name may be longer here than the usual 256 chars)
+    + volume_size         (File System)
+    </pre>
+
+    <p>Found in [linux.c]</p>
+    </section>
+
+    <!-- Linux squashfs -->
+    <section id="in1"> 
+        <a name="id5.4.12.22."></a>
+        <h1>5.4.12.22. Linux squashfs</h1>
+        Wikidata id: Q389314
+        <p>Instance of <i>File System</i>.</p>
+
+        <p>
+            <b>Inherited Properties:</b>
+        </p>
+    <pre>
+    + version             (File System)
+    + block_size  	      (File System)
+    + endianness          (File System)
+    </pre>
+
+        <p>
+            <b>Individual Properties:</b>
+        </p>
+    <pre>
+    - minor_version       {#int}
+    - compressed_size     {#unsigned long long}
+    </pre>
+
+    <p>Found in [linux.c]</p>
+    </section>
+
+    <!-- Macintosh File System -->
+    <section id="in1"> 
+        <a name="id5.4.12.23."></a>
+        <h1>5.4.12.23. Macintosh File System</h1>
+        Wikidata id: Q4043554
+        <p>Instance of <i>File System</i>.</p>
+
+        <p>
+            <i>no properties</i>
+        </p>
+    <p>Found in [apple.c]</p>
+    </section>
+
+    <!-- MINIX -->
+    <section id="in1"> 
+        <a name="id5.4.12.24."></a>
+        <h1>5.4.12.24. MINIX</h1>
+        Wikidata id: Q685924
+        <p>Instance of <i>File System</i>.</p>
+
+        <p>
+            <b>Inherited Properties:</b>
+        </p>
+    <pre>
+    + version             (File System)
+    + volume_size         (File System)
+    + block_size  	    (File System)
+    </pre>
+
+        <p>
+            <b>Individual Properties:</b>
+        </p>
+    <pre>
+    - name_size       {#int}
+    </pre>
+
+    <p>Found in [amiga.c, linux.c]</p>
+    </section>
+
+    <!-- NTFS -->
+    <section id="in1"> 
+        <a name="id5.4.12.25."></a>
+        <h1>5.4.12.25. NTFS</h1>
+        Wikidata id: Q183205
+        <p>Instance of <i>File System</i>.</p>
+
+        <p>
+            <b>Inherited Properties:</b>
+        </p>
+    <pre>
+    + volume_size         (File System)
+    + block_size  	    (File System)
+    </pre>
+
+    <p>Found in [dos.c]</p>
+    </section>
+
+    <!-- Opera file system -->
+    <section id="in1"> 
+        <a name="id5.4.12.26."></a>
+        <h1>5.4.12.26. Opera file system</h1>
+        Wikidata id: Q7096591
+        <p>Instance of <i>File System</i>.</p>
+
+        <p>(3DO CD-ROM file system)</p>
+
+        <p><i>no properties</i></p>
+
+    <p>Found in [cdrom.c]</p>
+    </section>
+
+</div>
+   
+    
+    
+    <div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr>
+        <td width="40%" align="left"><a accesskey="p" href="ch05s04_11.html">Prev</a> </td>                   <!-- adjust -->
+        <td width="20%" align="center"><a accesskey="u" href="ch05s04.html">Up</a></td>                    <!-- adjust -->
+        <td width="40%" align="right"> <a accesskey="n" href="ch05s04_13.html">Next</a></td></tr>          <!-- adjust -->
+        <tr><td width="40%" align="left" valign="top">5.4. File System V </td>                      <!-- adjust -->
+        <td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+        <td width="40%" align="right" valign="top"> 5.4. File System VII</td></tr></table></div></body></html> <!-- adjust -->

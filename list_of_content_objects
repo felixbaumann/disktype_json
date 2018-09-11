@@ -1,0 +1,86 @@
+File System			            Q174989
+Partition Table			        Q614361
+Partition			            Q255215
+Linux swap			            Q779098
+Disk Image			            Q592312
+Blank				            Q543287
+CD-ROM				            Q7982
+LVM				                Q6667482
+RAID Disk			            Q55673155
+File format			            Q235557
+FAT				                Q190167
+FAT12				            Q3063042
+FAT16				            Q3141148
+FAT32				            Q2622047
+Linux cramfs			        Q747406
+MBR partition table		        Q55357515
+Ext2				            Q283527
+Ext3				            Q283390
+Ext3 external journal		    Q55505629
+Ext4				            Q283827
+Journaling file system		    Q579047
+Windows NTLDR			        Q1073789
+Windows 9x boot loader		    Q55357282
+MS-DOS boot loader		        Q55357335
+FreeBSD boot loader		        Q55357194
+BSD disklabel			        Q1228785
+Unix File System		        Q1046338
+GPT partition map		        Q603889
+Apple HFS			            Q1058465
+Apple HFS Plus			        Q1071337
+ISO9660				            Q55336682
+Journaled File System		    Q1455872
+MINIX				            Q685924
+Reiser4				            Q2293002
+ReiserFS			            Q687074
+Linux romfs			            Q16963448
+Linux squashfs			        Q389314
+Apple UDIF disk image		    Q14757791
+Apple partition map		        Q375944
+XFS				                Q394011
+Macintosh File System		    Q4043554
+Amiga rigid disk partition map	Q55357472
+Amiga Old File System		    Q4746198
+Amiga Fast File System		    Q370047
+Amiga Smart File System		    Q1054031
+Amiga Professional File System	Q7247965
+Amiga Ami-File Safe		        Q55340903
+Boot disk			            Q893130
+Berkeley Fast File System	    Q2704864
+Audio CD			            Q1121020
+High Sierra format		        Q5756978
+Atari ST partition map		    Q55357630
+Cloop image			            Q55340914
+Universal Disk Format		    Q853645
+BeOS File System		        Q812816
+Bootman				            Q4035320
+Audio track			            Q7302866
+Track				            Q7831478
+tar archive			            Q283579
+Cpio archive			        Q285296
+Broker archive			        Q55357721
+Raw CD image			        Q3930596
+Opera file system		        Q7096591
+FATX				            Q25397999
+Compress file			        Q29209269
+gzip archive			        Q10287816
+bzip2 archive			        Q27866052
+Windows virtual PC disk image	Q55357928
+LILO boot loader		        Q861940
+SYSLINUX boot loader		    Q690646
+GRUB boot loader		        Q212885
+Linux kernel built-in loader	Q55357412
+Debian split floppy		        Q55673179
+Xenix file system		        Q55340889
+Boot File System		        Q4943815
+Solaris disklabel		        Q55505218
+QNX4 File System		        Q7265501
+Veritas VxFS			        Q2064372
+High Performance File System	Q127319
+NTFS				            Q183205
+ExFAT				            Q306233
+Amiga Amix			            Q295179
+NetBSD				            Q34225
+MS-DOS				            Q47604
+BSD				                Q34264
+Linux				            Q388

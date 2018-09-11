@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>5.4. Partition tables</title>                                <!-- adjust -->
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1">
+    <link rel="start" href="index.html" title="disktype Documentation">
+    <link rel="up" href="ch05.html" title="Chapter 5. JSON Modification">
+    <link rel="prev" href="ch05s04_13.html" title="Linux, DOS, NetBSD"> <!-- adjust -->
+    <link rel="next" href="ch05s04_015.html" title="5.4. RAID, Track">      <!-- adjust -->
+
+    <style>#in1 {margin-left: 5%;}</style>
+    <style>#in2 {margin-left: 10%;}</style>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="navheader"><table width="100%" summary="Navigation header"><tr>
+        <th colspan="3" align="center">5.4. Partition tables</th></tr>    <!-- adjust -->
+        <tr>
+        <td width="20%" align="left"><a accesskey="p" href="ch05s04_14.html">Prev</a> </td>    <!-- adjust -->
+        <th width="60%" align="center">Chapter 5. JSON Modification</th>
+        <td width="20%" align="right"> <a accesskey="n" href="ch05s04_16.html">Next</a></td></tr></table><hr></div> <!-- adjust -->
+    <div class="section" lang="en">
+        <div class="titlepage">
+        <div>
+            <div><h2 class="title" style="clear: both"><a name="id5.4.18."></a>5.4.18. Partition</h2></div></div></div> <!-- adjust -->
+
+    <p>Wikidata id: Q255215</p>
+
+        <p>
+            <b>Individual Properties:</b>
+        </p>
+    <pre>
+    - kind                {apple, amiga, atari, mbr, gpt, sparc, vtoc, bsd} 
+    - name                {#char[256]}
+    - number              {#int}                                (partitions are enumerated)
+    - size                {#unsigned long long}                 (size in bytes)
+    - sector_size         {#int}                                (the size in bytes of a single sector)
+    - start_sector        {#unsigned long long}                 (the sector on the disk where this partition starts)
+
+                          (The possible type_names depend on the kind of the partition. See section ? for bsd_types, gpt_types, mbr_types, vtoc_types)
+
+    - type_name           {apple: {Apple_Free, Apple_HFS, Apple_partition_map, ...}
+                           amiga: {...}
+                           atari: {Standard GEMDOS, Big GEMDOS, Extended, Unknown}
+                           mbr:   {<a href="ch05s04_17.html#id5.4.22.3.">#mbr_types</a>}
+                           gpt:   {<a href="ch05s04_17.html#id5.4.22.2.">#gpt_types</a>}
+                           sparc: -
+                           vtoc: {<a href="ch05s04_17.html#id5.4.22.4.">#vtoc_types</a>}
+                           bsd: {<a href="ch05s04_17.html#id5.4.22.1.">#bsd_types</a>}
+                          }
+    - bootable            {true, false}
+    - disklabel           {true}                    (true if this partition contains the disklabel)
+    - unused              {true}
+    - GUID                {#char[256]}
+    - drive_name          {#char[256]}
+    - letter              {char}                    (instead of an enumeration, partitions may also have letters)
+    </pre>
+
+    <p>Found in [amiga.c, apple.c, atari.c, dos.c, unix.c]</p>
+
+
+    <!-- Partition Table -->
+    <section> 
+        <a name="id5.4.19."></a>
+        <h1>5.4.19. Partition Table</h1>
+        Wikidata id: Q614361
+
+        <p>
+            <b>Individual Properties:</b>
+        </p>
+    <pre>
+    - entries     {#int}      (number of partitions)
+    - sector_size {#unsigned long}      (size of a single sector)
+    </pre>
+    </section>
+
+
+    <!-- Amiga rigid disk partition map -->
+    <section id="in1"> 
+        <a name="id5.4.19.1."></a>
+        <h1>5.4.19.1. Amiga rigid disk partition map</h1>
+        Wikidata id: Q55357472
+        <p>Instance of <i>Partition Table</i>.</p>
+
+        <p>
+            <b>Inherited Properties:</b>
+        </p>
+    <pre>
+    + sector_size   (Partition Table)
+    </pre>
+
+        <p>
+            <b>Individual Properties:</b>
+        </p>
+    <pre>
+    - sector        {#int}      (the sector where the partition map is found)
+    </pre>
+
+    Found in [amiga.c]
+    </section>
+
+    <!-- Apple partition map -->
+    <section id="in1"> 
+        <a name="id5.4.19.2."></a>
+        <h1>5.4.19.2. Apple partition map</h1>
+        Wikidata id: Q375944
+        <p>Instance of <i>Partition Table</i>.</p>
+
+        <p>
+            <b>Inherited Properties:</b>
+        </p>
+    <pre>
+    + entries (Partition Table)
+    </pre>
+
+        <p>
+            <b>Individual Properties:</b>
+        </p>
+    <pre>
+    - version {old style, new style}
+    </pre>
+
+    Found in [apple.c]
+    </section>
+
+    <!-- Atari ST partition map -->
+    <section id="in1"> 
+        <a name="id5.4.19.3."></a>
+        <h1>5.4.19.3. Atari ST partition map</h1>
+        Wikidata id: Q55357630
+        <p>Instance of <i>Partition Table</i>.</p>
+
+        <p>
+            <i>no properties</i>
+        </p>
+
+
+    Found in [atari.c]
+    </section>
+
+
+    <!-- GPT partition map -->
+    <section id="in1"> 
+        <a name="id5.4.19.4."></a>
+        <h1>5.4.19.4. GPT partition map</h1>
+        Wikidata id: Q603889
+        <p>Subclass of <i>Partition Table</i>.</p>
+
+        <p>
+            <b>Inherited Properties:</b>
+        </p>
+    <pre>
+    + entries (Partition Table)
+    </pre>
+
+        <p>
+            <b>Individual Properties:</b>
+        </p>
+    <pre>
+    - disk_size   {#unsigned long long}     (total disk size in bytes)
+    - sector_size {#unsigned long}          (size of a single sector in bytes)
+    - disk_GUID   {#char[256]}
+    </pre>
+
+    Found in [dos.c]
+    </section>
+
+
+    <!-- MBR partition table -->
+    <section id="in1"> 
+        <a name="id5.4.19.5."></a>
+        <h1>5.4.19.5. MBR partition table</h1>
+        Wikidata id: Q55357515
+        <p>Instance of <i>Partition Table</i>.</p>
+
+        <p>
+            <i>no properties</i>
+        </p>
+
+    Found in [dos.c]
+    </section>
+
+</div>
+   
+    
+    
+    <div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr>
+        <td width="40%" align="left"><a accesskey="p" href="ch05s04_14.html">Prev</a> </td>                   <!-- adjust -->
+        <td width="20%" align="center"><a accesskey="u" href="ch05s04.html">Up</a></td>                    <!-- adjust -->
+        <td width="40%" align="right"> <a accesskey="n" href="ch05s04_16.html">Next</a></td></tr>          <!-- adjust -->
+        <tr><td width="40%" align="left" valign="top">5.4. Linux, DOS, NetBSD </td>                      <!-- adjust -->
+        <td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+        <td width="40%" align="right" valign="top"> 5.4. RAID, Track</td></tr></table></div></body></html> <!-- adjust -->

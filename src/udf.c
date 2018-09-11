@@ -9,6 +9,8 @@
  * Extensive changes by Christoph Pfisterer
  *
  * Copyright (c) 2003 Aaron Geyer
+ * 
+ * Copyright (c) 2018 Felix Baumann on modifications
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -98,7 +100,8 @@ void detect_udf(SECTION *section, int level)
 
   /* We couldn't find the actual file system, but the stuff found
      in the recognition area is worth reporting anyway */
-  print_line(level, "UDF recognition sequence, unable to locate anchor descriptor");
+  print_line(level, 
+             "UDF recognition sequence, unable to locate anchor descriptor");
 }
 
 static int probe_udf(SECTION *section, int level, int sector_size)
@@ -122,6 +125,12 @@ static int probe_udf(SECTION *section, int level, int sector_size)
 
   print_line(level, "UDF file system");
   print_line(level + 1, "Sector size %d bytes", sector_size);
+  
+  #ifdef JSON
+  add_content_object(level, "Universal Disk Format", "Q853645");
+  
+  add_property_u8("block_size", (u8) sector_size);
+  #endif
 
   /* get the Volume Descriptor Area */
   count = get_le_long(buffer + 16) / sector_size;
@@ -130,7 +139,8 @@ static int probe_udf(SECTION *section, int level, int sector_size)
   /* look for a Logical Volume Descriptor */
   for (i = 0; i < count; i++) {
     sect = addr + i;
-    if (get_buffer(section, (u8)sect * sector_size, 512, (void **)&buffer) < 512)
+    if (get_buffer(section, (u8)sect * sector_size, 
+                   512, (void **)&buffer) < 512)
       break;
     if (!validate_tag(buffer, sect))
       continue;
@@ -144,9 +154,20 @@ static int probe_udf(SECTION *section, int level, int sector_size)
 	if (buffer[24] == 8) {
 	  get_string(buffer + 25, 30, s);
 	  print_line(level+1, "Volume name \"%s\"", s);
+          
+          #ifdef JSON
+          add_property("volume_name", s);
+          #endif
+
 	} else if (buffer[24] == 16) {
 	  format_utf16_le(buffer + 25, 30, s);
 	  print_line(level+1, "Volume name \"%s\"", s);
+          
+          #ifdef JSON
+          add_property("volume_name", s);
+          #endif
+
+
 	} else {
 	  print_line(level+1, "Volume name encoding not supported");
 	}
@@ -161,6 +182,17 @@ static int probe_udf(SECTION *section, int level, int sector_size)
 	if (memcmp(buffer + 216+1, "*OSTA UDF Compliant", 19) == 0) {
 	  print_line(level+1, "UDF version %x.%02x",
 		     (int)buffer[216+25], (int)buffer[216+24]);
+
+          #ifdef JSON
+          /* Version consists of a major and a minor one. 
+           * They're seperated by a dot and the minor one is filled up with
+           * zeros at the front in case it has less than two digits.
+           */
+          char version[20];
+          sprintf(version, "%x.%02x", (int)buffer[216+25], (int)buffer[216+24]);
+          add_property("version_hex", version);
+          #endif
+
 	}
 
       }

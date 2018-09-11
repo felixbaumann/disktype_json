@@ -3,6 +3,7 @@
  * Detection of ATARI ST partition map
  *
  * Copyright (c) 2003 Christoph Pfisterer
+ * Copyright (c) 2018 Felix Baumann on modifications
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -81,6 +82,11 @@ void detect_atari_partmap(SECTION *section, int level)
     return;
 
   /* print data and handle each partition */
+  
+  #ifdef JSON
+  add_content_object(level, "Atari ST partition map", "Q55357630");
+  #endif
+  
   print_line(level, "ATARI ST partition map");
   for (i = 0; i < 4; i++) {
     start = starts[i];
@@ -93,7 +99,20 @@ void detect_atari_partmap(SECTION *section, int level)
     sprintf(append, " from %lu", start);
     if (flag & 0x80)
       strcat(append, ", bootable");
+    
+    /* format_blocky_size's second arg is the number of sectors */
     format_blocky_size(s, size, 512, "sectors", append);
+    
+    #ifdef JSON
+    add_content_object(level, "Partition", "Q255215");
+
+    add_property("kind", "atari");
+    add_property_int("number", i+1);
+    add_property_int("sector_size", 512);
+    add_property_u4("size", (u4) (size * 512));
+    add_property("type_name", get_name_for_type(type));
+    #endif
+    
     print_line(level, "Partition %d: %s",
 	       i+1, s);
 
@@ -151,7 +170,17 @@ static void detect_atari_partmap_ext(SECTION *section, u8 extbase, int level)
       } else {
 	/* real partition */
 
-	sprintf(append, " from %lu", start + tablebase);
+        #ifdef JSON
+        add_content_object(level, "Partition", "Q255215");
+
+        add_property("kind", "atari");
+        add_property_int("number", extpartnum);
+        add_property_int("sector_size", 512);
+        add_property_u4("size", (u4) (size * 512));
+        add_property("type_name", get_name_for_type(type));
+        #endif
+    
+	sprintf(append, " from %llu", start + tablebase);
 	format_blocky_size(s, size, 512, "sectors", append);
 	print_line(level, "Partition %d: %s",
 		   extpartnum, s);

@@ -3,6 +3,7 @@
  * Detection of DOS parition maps and file systems
  *
  * Copyright (c) 2003-2006 Christoph Pfisterer
+ * Copyright (c) 2018 Felix Baumann on modifications
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -134,7 +135,9 @@ struct systypes i386_sys_types[] = {
   { 0, 0 }
 };
 
-
+/* Returns the mbr_type for a given given number
+ * or "Unknown" if it doesn't exist.
+ */
 char * get_name_for_mbrtype(int type)
 {
   int i;
@@ -191,6 +194,11 @@ void detect_dos_partmap(SECTION *section, int level)
     return;
 
   /* parse the data for real */
+  
+  #ifdef JSON
+  add_content_object(level, "MBR partition table", "Q55357515");
+  #endif
+  
   print_line(level, "DOS/MBR partition map");
   for (i = 0; i < 4; i++) {
     start = starts[i];
@@ -202,11 +210,25 @@ void detect_dos_partmap(SECTION *section, int level)
     sprintf(append, " from %lu", start);
     if (bootflags[i] == 0x80)
       strcat(append, ", bootable");
+
+    #ifdef JSON
+    add_content_object(level, "Partition", "Q255215");
+
+    add_property("kind", "mbr");
+    add_property_int("number", i+1);
+    add_property_int("sector_size", 512);
+    add_property_u8("size", (u8) (size * 512));
+    add_property_u4("start_sector", start);
+    add_property("bootable", (bootflags[i] == 0x80) ? "true" : "false");
+    add_property("type_name", get_name_for_mbrtype(type));
+    #endif
+    
     format_blocky_size(s, size, 512, "sectors", append);
     print_line(level, "Partition %d: %s",
 	       i+1, s);
 
-    print_line(level + 1, "Type 0x%02X (%s)", type, get_name_for_mbrtype(type));
+    print_line(level + 1, "Type 0x%02X (%s)", type, 
+               get_name_for_mbrtype(type));
 
     if (type == 0x05 || type == 0x0f || type == 0x85) {
       /* extended partition */
@@ -263,12 +285,24 @@ static void detect_dos_partmap_ext(SECTION *section, u8 extbase,
       } else {
 	/* logical partition */
 
+        #ifdef JSON
+        add_content_object(level, "Partition", "Q255215");
+
+        add_property("kind", "mbr");
+        add_property_int("number", *extpartnum);
+        add_property_int("sector_size", 512);
+        add_property_u8("size", (u8) (size * 512));
+        add_property_u8("start_sector", (u8) (start + tablebase));
+        add_property("type_name", get_name_for_mbrtype(type));
+        #endif
+
 	sprintf(append, " from %llu+%lu", tablebase, start);
 	format_blocky_size(s, size, 512, "sectors", append);
 	print_line(level, "Partition %d: %s",
 		   *extpartnum, s);
 	(*extpartnum)++;
-	print_line(level + 1, "Type 0x%02X (%s)", type, get_name_for_mbrtype(type));
+	print_line(level + 1, "Type 0x%02X (%s)", type, 
+	           get_name_for_mbrtype(type));
 
 	/* recurse for content detection */
 	if (type != 0xee) {
@@ -290,26 +324,46 @@ struct gpttypes {
 };
 
 struct gpttypes gpt_types[] = {
-  { "\x28\x73\x2A\xC1\x1F\xF8\xD2\x11\xBA\x4B\x00\xA0\xC9\x3E\xC9\x3B", "EFI System (FAT)" },
-  { "\x41\xEE\x4D\x02\xE7\x33\xD3\x11\x9D\x69\x00\x08\xC7\x81\xF3\x9F", "MBR partition scheme" },
-  { "\x16\xE3\xC9\xE3\x5C\x0B\xB8\x4D\x81\x7D\xF9\x2D\xF0\x02\x15\xAE", "MS Reserved" },
-  { "\xA2\xA0\xD0\xEB\xE5\xB9\x33\x44\x87\xC0\x68\xB6\xB7\x26\x99\xC7", "Basic Data" },
-  { "\xAA\xC8\x08\x58\x8F\x7E\xE0\x42\x85\xD2\xE1\xE9\x04\x34\xCF\xB3", "MS LDM Metadata" },
-  { "\xA0\x60\x9B\xAF\x31\x14\x62\x4F\xBC\x68\x33\x11\x71\x4A\x69\xAD", "MS LDM Data" },
-  { "\x1E\x4C\x89\x75\xEB\x3A\xD3\x11\xB7\xC1\x7B\x03\xA0\x00\x00\x00", "HP/UX Data" },
-  { "\x28\xE7\xA1\xE2\xE3\x32\xD6\x11\xA6\x82\x7B\x03\xA0\x00\x00\x00", "HP/UX Service" },
-  { "\x0F\x88\x9D\xA1\xFC\x05\x3B\x4D\xA0\x06\x74\x3F\x0F\x84\x91\x1E", "Linux RAID" },
-  { "\x6D\xFD\x57\x06\xAB\xA4\xC4\x43\x84\xE5\x09\x33\xC8\x4B\x4F\x4F", "Linux Swap" },
-  { "\x79\xD3\xD6\xE6\x07\xF5\xC2\x44\xA2\x3C\x23\x8F\x2A\x3D\xF9\x28", "Linux LVM" },
-  { "\x39\x33\xA6\x8D\x07\x00\xC0\x60\xC4\x36\x08\x3A\xC8\x23\x09\x08", "Linux Reserved" },
-  { "\xB4\x7C\x6E\x51\xCF\x6E\xD6\x11\x8F\xF8\x00\x02\x2D\x09\x71\x2B", "FreeBSD Data" },
-  { "\xB5\x7C\x6E\x51\xCF\x6E\xD6\x11\x8F\xF8\x00\x02\x2D\x09\x71\x2B", "FreeBSD Swap" },
-  { "\xB6\x7C\x6E\x51\xCF\x6E\xD6\x11\x8F\xF8\x00\x02\x2D\x09\x71\x2B", "FreeBSD UFS" },
-  { "\xB8\x7C\x6E\x51\xCF\x6E\xD6\x11\x8F\xF8\x00\x02\x2D\x09\x71\x2B", "FreeBSD Vinum" },
-  { "\x00\x53\x46\x48\x00\x00\xAA\x11\xAA\x11\x00\x30\x65\x43\xEC\xAC", "Mac HFS+" },
-  { 0, 0 }
+  {"\x28\x73\x2A\xC1\x1F\xF8\xD2\x11\xBA\x4B\x00\xA0\xC9\x3E\xC9\x3B",
+   "EFI System (FAT)"},
+  {"\x41\xEE\x4D\x02\xE7\x33\xD3\x11\x9D\x69\x00\x08\xC7\x81\xF3\x9F",
+   "MBR partition scheme"},
+  {"\x16\xE3\xC9\xE3\x5C\x0B\xB8\x4D\x81\x7D\xF9\x2D\xF0\x02\x15\xAE",
+   "MS Reserved"},
+  {"\xA2\xA0\xD0\xEB\xE5\xB9\x33\x44\x87\xC0\x68\xB6\xB7\x26\x99\xC7",
+   "Basic Data"},
+  {"\xAA\xC8\x08\x58\x8F\x7E\xE0\x42\x85\xD2\xE1\xE9\x04\x34\xCF\xB3",
+   "MS LDM Metadata"},
+  {"\xA0\x60\x9B\xAF\x31\x14\x62\x4F\xBC\x68\x33\x11\x71\x4A\x69\xAD",
+   "MS LDM Data"},
+  {"\x1E\x4C\x89\x75\xEB\x3A\xD3\x11\xB7\xC1\x7B\x03\xA0\x00\x00\x00",
+   "HP/UX Data"},
+  {"\x28\xE7\xA1\xE2\xE3\x32\xD6\x11\xA6\x82\x7B\x03\xA0\x00\x00\x00",
+   "HP/UX Service"},
+  {"\x0F\x88\x9D\xA1\xFC\x05\x3B\x4D\xA0\x06\x74\x3F\x0F\x84\x91\x1E",
+   "Linux RAID"},
+  {"\x6D\xFD\x57\x06\xAB\xA4\xC4\x43\x84\xE5\x09\x33\xC8\x4B\x4F\x4F",
+   "Linux Swap"},
+  {"\x79\xD3\xD6\xE6\x07\xF5\xC2\x44\xA2\x3C\x23\x8F\x2A\x3D\xF9\x28",
+   "Linux LVM"},
+  {"\x39\x33\xA6\x8D\x07\x00\xC0\x60\xC4\x36\x08\x3A\xC8\x23\x09\x08",
+   "Linux Reserved"},
+  {"\xB4\x7C\x6E\x51\xCF\x6E\xD6\x11\x8F\xF8\x00\x02\x2D\x09\x71\x2B",
+   "FreeBSD Data"},
+  {"\xB5\x7C\x6E\x51\xCF\x6E\xD6\x11\x8F\xF8\x00\x02\x2D\x09\x71\x2B",
+   "FreeBSD Swap"},
+  {"\xB6\x7C\x6E\x51\xCF\x6E\xD6\x11\x8F\xF8\x00\x02\x2D\x09\x71\x2B",
+   "FreeBSD UFS"},
+  {"\xB8\x7C\x6E\x51\xCF\x6E\xD6\x11\x8F\xF8\x00\x02\x2D\x09\x71\x2B",
+   "FreeBSD Vinum"},
+  {"\x00\x53\x46\x48\x00\x00\xAA\x11\xAA\x11\x00\x30\x65\x43\xEC\xAC",
+   "Mac HFS+"},
+  {0, 0}
 };
 
+/* Returns the gpt_type for a given given GUID
+ * or "Unknown" if it doesn't exist.
+ */
 static char * get_name_for_guid(void *guid)
 {
   int i;
@@ -348,22 +402,45 @@ void detect_gpt_partmap(SECTION *section, int level)
   partmap_start = get_le_quad(buf + 0x48);
   partmap_count = get_le_long(buf + 0x50);
   partmap_entry_size = get_le_long(buf + 0x54);
-
+  
   print_line(level, "GPT partition map, %d entries", (int)partmap_count);
   format_blocky_size(s, diskblocks, 512, "sectors", NULL);
   print_line(level+1, "Disk size %s", s);
+  
   format_guid(buf + 0x38, s);
+
+  #ifdef JSON
+  add_content_object(level, "GPT partition map", "Q603889");
+  
+  add_property_int("entries", (int) partmap_count);
+  add_property_u8("disk_size", (u8) (diskblocks * 512));
+  add_property_int("sector_size", (u4) (512));
+  add_property("disk_GUID", s);
+  #endif
+
   print_line(level+1, "Disk GUID %s", s);
 
   /* get entries */
   last_unused = 0;
   for (i = 0; i < partmap_count; i++) {
-    if (get_buffer(section, (partmap_start * 512) + i * partmap_entry_size, partmap_entry_size, (void **)&buf) < partmap_entry_size)
+    if (get_buffer(section, (partmap_start * 512) + i * partmap_entry_size, 
+                   partmap_entry_size, (void **)&buf) < partmap_entry_size)
       return;
 
     if (memcmp(buf, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 16) == 0) {
       if (last_unused == 0)
+      {
 	print_line(level, "Partition %d: unused", i+1);
+        
+      #ifdef JSON
+      add_content_object(level, "Partition", "Q255215");
+
+      add_property("kind", "gpt");
+      add_property_u4("number", (u4) (i+1));
+      add_property("unused", "true");
+      #endif
+        
+      }
       last_unused = 1;
       continue;
     }
@@ -378,17 +455,39 @@ void detect_gpt_partmap(SECTION *section, int level)
     format_blocky_size(s, size, 512, "sectors", append);
     print_line(level, "Partition %d: %s", i+1, s);
 
+    #ifdef JSON
+    add_content_object(level, "Partition", "Q255215");
+
+    add_property("kind", "gpt");
+    add_property_u4("number", (u4) (i+1));
+    add_property_int("sector_size", 512);
+    add_property_u8("size", (u8) (size * 512));
+    add_property_u8("start_sector", (u8) start);
+    #endif
+    
     /* type */
     format_guid(buf, s);
     print_line(level+1, "Type %s (GUID %s)", get_name_for_guid(buf), s);
-
+ 
+    #ifdef JSON
+    add_property("type_name", get_name_for_guid(buf));
+    #endif
+    
     /* partition name */
     format_utf16_le(buf + 0x38, 72, s);
     print_line(level+1, "Partition Name \"%s\"", s);
+    
+    #ifdef JSON
+    add_property("name", s);
+    #endif
 
     /* GUID */
     format_guid(buf + 0x10, s);
     print_line(level+1, "Partition GUID %s", s);
+
+    #ifdef JSON
+    add_property("GUID", s);
+    #endif
 
     /* recurse for content detection */
     if (start > 0 && size > 0) {  /* avoid recursion on self */
@@ -424,6 +523,7 @@ void detect_fat(SECTION *section, int level)
     return;
   /* sectors per cluster: must be a power of two */
   clustersize = buf[13];
+  
   if (clustersize == 0 || (clustersize & (clustersize - 1)))
     return;
   /* since the above is also present on NTFS, make sure it's not NTFS... */
@@ -485,6 +585,31 @@ void detect_fat(SECTION *section, int level)
   s[0] = 0;
   if (atari_csum == 0x1234)
     strcpy(s, ", ATARI ST bootable");
+
+  
+  #ifdef JSON
+  switch(fattype)
+  {
+      case 0:
+        /* FAT 12 */
+        add_content_object(level, "FAT12", "Q3063042");
+        break;
+      case 1:
+        /* FAT 16 */
+        add_content_object(level, "FAT16", "Q3141148");
+        break;
+      default:
+        /* FAT 32 */
+        add_content_object(level, "FAT32", "Q2622047");
+        break;
+  }
+
+  add_property_int("hints_score", score);
+  add_property_u8("block_size", (u8) sectsize);
+  add_property_u8("cluster_size", (u8) (clustersize * sectsize));
+  add_property_u8("volume_size", (u8) (clustercount * clustersize * sectsize));
+  #endif
+  
   print_line(level, "%s file system (hints score %d of %d%s)",
 	     fatnames[fattype], score, 5, s);
 
@@ -503,7 +628,13 @@ void detect_fat(SECTION *section, int level)
       for (i = 10; i >= 0 && s[i] == ' '; i--)
 	s[i] = 0;
       if (strcmp(s, "NO NAME") != 0)
+      {
 	print_line(level + 1, "Volume name \"%s\"", s);
+
+        #ifdef JSON
+        add_property("volume_name", s);
+        #endif
+      }
     }
   } else {
     if (buf[66] == 0x29) {
@@ -512,7 +643,13 @@ void detect_fat(SECTION *section, int level)
       for (i = 10; i >= 0 && s[i] == ' '; i--)
 	s[i] = 0;
       if (strcmp(s, "NO NAME") != 0)
+      {
 	print_line(level + 1, "Volume name \"%s\"", s);
+
+        #ifdef JSON
+        add_property("volume_name", s);
+        #endif
+      }
     }
   }
 }
@@ -533,7 +670,11 @@ void detect_exfat(SECTION *section, int level)
     return;
 
   /* tell the user */
-    print_line(level, "exFAT file system");
+  print_line(level, "exFAT file system");
+
+  #ifdef JSON
+  add_content_object(level, "ExFAT", "Q306233");
+  #endif  
 }
 
 /*
@@ -575,6 +716,13 @@ void detect_ntfs(SECTION *section, int level)
 
   format_blocky_size(s, sectcount, sectsize, "sectors", NULL);
   print_line(level + 1, "Volume size %s", s);
+  
+  #ifdef JSON
+  add_content_object(level, "NTFS", "Q183205");
+
+  add_property_u8("block_size", (u8) sectsize);
+  add_property_u8("volume_size", (u8) (sectsize * sectcount));
+  #endif
 }
 
 /*
@@ -595,10 +743,22 @@ void detect_hpfs(SECTION *section, int level)
 
   print_line(level, "HPFS file system (version %d, functional version %d)",
 	     (int)buf[8], (int)buf[9]);
+  
+  #ifdef JSON
+  add_content_object(level, "High Performance File System", "Q127319");
+
+  add_property_int("version", (int)buf[8]);
+  add_property_int("functional_version", (int)buf[9]);
+  #endif
 
   sectcount = get_le_long(buf + 16);
   format_blocky_size(s, sectcount, 512, "sectors", NULL);
   print_line(level + 1, "Volume size %s", s);
+  
+  #ifdef JSON
+  add_property_u8("block_size", (u8) 512);
+  add_property_u8("volume_size", (u8) (sectcount * 512));
+  #endif
 
   /* TODO: BPB in boot sector, volume label -- information? */
 }
@@ -620,11 +780,29 @@ void detect_dos_loader(SECTION *section, int level)
     return;
 
   if (find_memory(buf, fill, "NTLDR", 5) >= 0)
+  {
     print_line(level, "Windows NTLDR boot loader");
+  
+    #ifdef JSON
+    add_content_object(level, "Windows NTLDR", "Q1073789");
+    #endif
+  }
   else if (find_memory(buf, 512, "WINBOOT SYS", 11) >= 0)
+  {
     print_line(level, "Windows 95/98/ME boot loader");
+    
+    #ifdef JSON
+    add_content_object(level, "Windows 9x boot loader", "Q55357282");
+    #endif
+  }
   else if (find_memory(buf, 512, "MSDOS   SYS", 11) >= 0)
+  {
     print_line(level, "Windows / MS-DOS boot loader");
+    
+    #ifdef JSON
+    add_content_object(level, "MS-DOS boot loader", "Q55357335");
+    #endif
+  }
 }
 
 /* EOF */

@@ -1,0 +1,24 @@
+<dl> </dl> umschließt eine Liste
+<dt> </dt> umschließt einen einzeiligen Listeneintrag
+<dd> </dd> umschließt einen mehrzeiligen Listeneintrag
+
+Beispiel
+
+<dl>
+    <dt> Erstes Listenzeile </dt>
+    <dt> Zweite Listenzeile </dt>
+</dl>
+
+Oder
+
+<dl>
+    <dt> Erstes Listenzeile </dt>
+    <dt> Zweite Listenzeile </dt>
+    <dd>
+          <dl>
+		<dt> Erste Zeile der Unterliste </dt>
+		<dt> Zweite Zeile der Unterliste </dt>
+          </dl>
+    </dd>
+    <dt> Vierter Listeneintrag </dt>
+</dl>

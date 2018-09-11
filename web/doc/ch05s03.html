@@ -1,0 +1,111 @@
+﻿
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>5.3. Content Objects</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1">
+    <link rel="start" href="index.html" title="disktype Documentation">
+    <link rel="up" href="ch05.html" title="Chapter 5. JSON Modification">
+    <link rel="prev" href="ch05s02.html" title="5.1. Output Hierarchy">
+    <link rel="next" href="ch05s04.html" title="5.4 Content Objects List">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.3. Content Objects</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05s02.html">Prev</a> </td><th width="60%" align="center">Chapter 5. JSON Modification</th><td width="20%" align="right"> <a accesskey="n" href="ch05s04.html">Next</a></td></tr></table><hr></div><div class="section" lang="en">
+        <div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id893616"></a>5.3. Content Objects</h2></div></div></div><p>
+            Each content object is again a JSON object, consisting of 4 key-value pairs with the keys <i>type</i>, <i>wikidata</i>, <i>properties</i> and <i>content</i>.
+        </p><p>
+            Example: A content object may look like this:
+        </p><p>
+        <pre>
+                {
+                   "type" : "Apple HFS Plus",
+                   "wikidata" : "Q1071337",
+                   "properties" : {
+                      "volume_name" : "HFS Plus",
+                      "block_size" : "4096",
+                      "volume_size" : "8388608"
+                   },
+                   "content" : []
+                }
+                </pre>
+                </p><p>
+                <span><strong class="command">type</strong></span> refers to the specific kind of structure found. This may be an <i>hierarchical file system</i> used by <i>Apple</i>, a <i>FreeBSD boot loader</i>, 
+                a <i>MBR partition table</i> or many more. In total there are about 80 different recognized structures which brings up several issues:
+        </p><p>
+                The naming: <i>Apple HFS</i>, <i>HFS</i> and <i>Hierarchical File System</i> all refer to the same file system, so which one shall be used and 
+                how is the machine supposed to know for which one to search for?
+        </p><p>
+                The mere number of different structures is to vast and therefore hardly manageable. Some generalization has to be done without any 
+                loss of information though. Also, each type of structure has some properties which makes the total number of properties even less 
+                manageable. Inheritance of properties according to the generalization of structures is required.
+         </p><p>
+                For these reasons, an external, easily accessable knowledge base that yields unique ids for the structures, deals with 
+                machine-readable generalization and therefore allows automatic inheritance of properties is needed. Wikidata is such a knowledge base.
+        </p><p>
+           <span><strong class="command">wikidata</strong></span> therefore contains the entity ID of the wikidata item corresponding to the content object.
+        </p><p>
+           <span><strong class="command">properties</strong></span> is the key to another JSON object containing more specific information about the structure. 
+                These properties are inherited along wikidata's <i>instance of</i> and <i>subclass of</i> statements.
+        </p><p>
+                The <i>HFS Plus</i> structure from the example above is in wikidata an instance of <i>file system</i>, that says it inherits all the properties
+                from <i>file system</i> and may have some individual ones on top of that. In this case, all the properties in the example - <i>volume_name</i>,
+                <i>volume_size</i> and <i>block_size</i> - are properties of <i>file system</i>.
+                Note that only properties are added to the output for which disktype found any information.
+                In fact, the content object above inherits even more properties from <i>file system</i> but they're left out in the JSON output since
+                they're not filled with actual values.
+        </p><p>
+                <span><strong class="command">content</strong></span> is again an array of content objects that are assigned to this one. In this case it's empty, since disktype didn't detect
+                anything within the file system. In the example below though, there's a <i>GPT partition map</i> and a <i>Partition</i> found next to each
+                other and inside the partition there's an <i>Ext2</i> file system.
+        </p><p>
+        <pre>
+                {
+                   "file kind" : "Regular file",
+                   "path" : "/path/gpt.image",
+                   "size" : "8388608",
+                   "content" : [
+                      {
+                         "type" : "GPT partition map",
+                         "wikidata" : "Q603889",
+                         "properties" : {
+                            "disk_size" : "8388608",
+                            "entries" : "128",
+                            "sector_size" : "512"
+                         },
+                         "content" : [],
+                      },
+                      {
+                         "type" : "Partition",
+                         "wikidata" : "Q255215",
+                         "properties" : {
+                            "sector_size" : "512",
+                            "size" : "8354304",
+                            "start_sector" : "34",
+                            "type_name" : "Basic Data",
+                            "name" : "test-ext2",
+                            "kind" : "gpt",
+                            "number" : "1"
+                         },
+                         "content" : [
+                            {
+                               "type" : "Ext2",
+                               "wikidata" : "Q283527",
+                               "properties" : {
+                                  "block_size" : "1024",
+                                  "volume_size" : "8353792"
+                               },
+                               "content" : []
+                            }
+                         ]
+                      }
+                   ]
+                }
+        </pre>
+        </p><p>
+                A list of all potentially detected content objects, their properties and the generalization is provided by the following chapter.
+
+</p>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05s02.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch05.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch05s04.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 5. JSON Modification </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 5.4. Content Objects List</td></tr></table></div>
+</body>
+</html>

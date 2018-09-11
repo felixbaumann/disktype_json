@@ -26,7 +26,6 @@
  */
 
 #include "global.h"
-#include <stdarg.h>
 
 /*
  * output functions
@@ -48,6 +47,13 @@ static char line_akku[4096];
 
 void print_line(int level, const char *fmt, ...)
 {
+  
+  /* Comment out all print statements by returning here. */
+  #ifdef JSON
+  return;
+  #endif
+
+
   va_list par;
 
   va_start(par, fmt);

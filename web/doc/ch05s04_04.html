@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>5.4. CD, Split Floppy, External Journal</title>                                <!-- adjust -->
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1">
+    <link rel="start" href="index.html" title="disktype Documentation">
+    <link rel="up" href="ch05.html" title="Chapter 5. JSON Modification">
+    <link rel="prev" href="ch05s04_03.html" title="5.4. Bootman, BSD, Disklabels"> <!-- adjust -->
+    <link rel="next" href="ch05s04_05.html" title="5.4. File Format I">      <!-- adjust -->
+
+    <style>#in1 {margin-left: 5%;}</style>
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="navheader"><table width="100%" summary="Navigation header"><tr>
+        <th colspan="3" align="center">5.4. CD, Split Floppy, External Journal</th></tr>    <!-- adjust -->
+        <tr>
+        <td width="20%" align="left"><a accesskey="p" href="ch05s04_03.html">Prev</a> </td>    <!-- adjust -->
+        <th width="60%" align="center">Chapter 5. JSON Modification</th>
+        <td width="20%" align="right"> <a accesskey="n" href="ch05s04_05.html">Next</a></td></tr></table><hr></div> <!-- adjust -->
+    <div class="section" lang="en">
+        <div class="titlepage">
+        <div>
+            <div><h2 class="title" style="clear: both"><a name="id5.4.8."></a>5.4.8. Compact Disk</h2></div></div></div> <!-- adjust -->
+
+    <p>Wikidata id: Q34467</p>
+    <p><i> no properties </i></p>
+
+    <section id="in1"> 
+        <a name="id5.4.8.1."></a>
+        <h1>5.4.8.1. Audio CD</h1>
+        Wikidata id: Q1121020
+        <p>
+            Subclass of <i>Compact Disk.</i>
+        </p>
+    Found in [amiga.c]
+    </section>
+
+
+    <section id="in1">
+        <a name="id5.4.8.2."></a>
+            <h1>5.4.8.2. CD-ROM</h1>
+            Wikidata id: Q7982
+            <p>
+                Subclass of <i>Compact Disk.</i>
+            </p>
+            <p>
+                <b>Individual Properties:</b>
+            </p>
+    <pre>
+    - number_of_tracks    {#int}
+    - disk_ID             {#8 digits hexadecimal}     (CDDB disk ID)
+    </pre>
+
+            Found in [amiga.c, cdaccess.c]
+        </section>
+
+
+    <section>
+        <a name="id5.4.9."></a>
+        <h1>5.4.9. Debian split floppy</h1>
+            Wikidata id: Q55673179
+            <p>
+                <b>Individual Properties:</b>
+            </p>
+    <pre>
+    - name            {?}
+    - disk_number     {?}      (The split floppies are enumerated)
+    - total_disks     {?}      (Total number of split floppies belonging together)
+    </pre>
+
+            Found in [linux.c]
+    </section>
+
+
+        <section>
+            <a name="id5.4.10."></a>
+            <h1>5.4.10. Ext3 external journal</h1>
+            Wikidata id: Q55505629
+            <p>
+                <b>Individual Properties:</b>
+            </p>
+    <pre>
+    - volume_name             {#char[256]}
+    - UUID                    {#char[256]}
+    - last_mounted            {#char[256]}     (location where it was last mounted)
+    - volume_size             {#unsigned long long}
+    - block_size              {#unsigned long long}
+    </pre>
+
+            Found in [linux.c]
+        </section>
+
+
+
+
+
+
+</div>
+   
+    
+    
+    <div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr>
+        <td width="40%" align="left"><a accesskey="p" href="ch05s04_03.html">Prev</a> </td>                   <!-- adjust -->
+        <td width="20%" align="center"><a accesskey="u" href="ch05s04.html">Up</a></td>                    <!-- adjust -->
+        <td width="40%" align="right"> <a accesskey="n" href="ch05s04_05.html">Next</a></td></tr>          <!-- adjust -->
+        <tr><td width="40%" align="left" valign="top">5.4. Bootman, BSD, Disklabels</td>                      <!-- adjust -->
+        <td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+        <td width="40%" align="right" valign="top">5.4. File Format I</td></tr></table></div></body></html> <!-- adjust -->

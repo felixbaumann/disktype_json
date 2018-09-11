@@ -9,14 +9,14 @@ OBJS   = main.o lib.o \
          buffer.o file.o cdaccess.o cdimage.o vpc.o compressed.o \
          detect.o apple.o amiga.o atari.o dos.o cdrom.o \
          linux.o unix.o beos.o archives.o \
-         udf.o blank.o cloop.o
+         udf.o blank.o cloop.o json.o string.o test.o
 
 TARGET = disktype
 
 CPPFLAGS = -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64
 CFLAGS   = -Wall
 LDFLAGS  =
-LIBS     =
+LIBS     = -lm
 
 ifeq ($(NOSYS),)
   system = $(shell uname)

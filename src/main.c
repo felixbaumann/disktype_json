@@ -3,6 +3,7 @@
  * Main entry point and global utility functions.
  *
  * Copyright (c) 2003 Christoph Pfisterer
+ * Copyright (c) 2018 Felix Baumann on modifications
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -26,10 +27,24 @@
  */
 
 #include "global.h"
+// #include "assert.h"
 
 #ifdef USE_MACOS_TYPE
 #include <CoreServices/CoreServices.h>
 #endif
+
+
+#ifdef JSON
+/* Structure storing the information formerly printed. */
+struct file_info given_file;
+
+/* Assuming latin1 allows to clean strings from undesired characters
+ * like quotes and backslashs. */
+int latin1 = 0;
+
+#endif
+
+
 
 /*
  * local functions
@@ -42,29 +57,145 @@ static void print_kind(int filekind, u8 size, int size_known);
 static void show_macos_type(const char *filename);
 #endif
 
+int test_arg(int argc, char *argv[]);
+int latin1_arg(int argc, char *argv[]);
+int optional_args(int argc, char *argv[]);
+
+
 /*
  * entry point
  */
 
 int main(int argc, char *argv[])
 {
-  int i;
+    
+  /* Determine the position of the first argument that is
+   * actually a path. */
+  int first_path = optional_args(argc, argv);
+  
+  /* wrong arguments */
+  if (first_path == -1) {return 1;}
 
-  /* argument check */
-  if (argc < 2) {
-    fprintf(stderr, "Usage: %s <device/file>...\n", PROGNAME);
-    return 1;
-  }
+  #ifdef JSON
+  given_file.number_of_objects = 0; 
+  #endif
 
   /* loop over filenames */
   print_line(0, "");
-  for (i = 1; i < argc; i++) {
+  for (int i = first_path; i < argc; i++) {
     analyze_file(argv[i]);
+
+    #ifdef JSON
+    add_file_path(argv[i]);
+
+    convert_to_json();
+    
+    printf("%s", json_output);
+
+    /* Reset all values to analyze the next file. */
+    reset_json(); 
+    #endif
+
     print_line(0, "");
   }
 
   return 0;
 }
+
+/* This function handles optional arguments.
+ * 
+ * It returns the position of the first argument pointing to a file
+ * and -1 if there are wrong arguments.
+ */
+int optional_args(int argc, char *argv[])
+{
+  /* argument check */
+  
+  /* too few arguments */
+  if (argc < 2) {
+    fprintf(stderr, "Usage: %s [--latin1] [--test] <device/file>...\n", PROGNAME);
+    return -1;
+  }
+  
+  int use_latin = latin1_arg(argc, argv);
+  int run_tests = test_arg(argc, argv);
+  
+  if (use_latin == -1 || run_tests == -1) 
+  {
+      fprintf(stderr, "Usage: %s [--latin1] [--test] <device/file>...\n", PROGNAME);
+      return -1;
+  }
+
+  return 1 + use_latin + run_tests;
+}
+
+
+/* This function checks whether one of the aruments
+ * is --latin1 and the latin1 assumption may be used to
+ * clean strings.
+ * 
+ * It will return 1 if a --latin1 argument is found,
+ *                0 if none is found and
+ *               -1 if there are wrong arguments.
+ * 
+ */
+int latin1_arg(int argc, char *argv[])
+{
+    #ifdef JSON
+    /* Use latin1 assumption */
+    if (strcmp(argv[1], "--latin1") == 0)
+    {
+        latin1 = 1;
+        /* We still need a file path. */
+        if (argc < 3) { return -1; }
+    }
+    else
+    {
+        latin1 = 0;
+    }
+    
+    return latin1;
+    #endif
+    return 0;
+}
+
+/* This function checks whether one of the arguments
+ * is --test and run tests if this is the case.
+ * 
+ * It will return 1 if a --test argument is found,
+ *                0 if none is found and
+ *               -1 if there are wrong arguments.
+ */
+int test_arg(int argc, char *argv[])
+{
+  /* Test as first argument */
+  if (strcmp(argv[1], "--test") == 0)
+  {
+      /* We still need a file path. */
+      if (argc < 3) { return -1; }
+      #ifdef JSON
+      test();
+      #endif
+
+      return 1;
+  }
+
+  /* Test as second argument. */
+  if (argc < 3) {return 0; }
+  
+  if (strcmp(argv[2], "--test") == 0)
+  {
+      /* We still need a file path. */
+      if (argc < 4) { return -1; }
+      #ifdef JSON
+      test();
+      #endif
+
+      return 1;
+  }  
+  return 0;
+}
+
 
 /*
  * Analyze one file
@@ -167,8 +298,19 @@ static void print_kind(int filekind, u8 size, int size_known)
   if (size_known) {
     format_size_verbose(buf, size);
     print_line(0, "%s, size %s", kindname, buf);
+    
+    #ifdef JSON
+    /* Store file kind and file size in the file info structure. */
+    add_file_characteristics(kindname, &size);
+    #endif
+    
   } else {
     print_line(0, "%s, unknown size", kindname);
+    
+    #ifdef JSON
+    /* Store file kind in the file info structure. */
+    add_file_characteristics(kindname, NULL);
+    #endif
   }
 }
 

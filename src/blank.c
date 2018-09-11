@@ -5,6 +5,8 @@
  * Written By Aaron Geyer of StorageQuest, Inc.
  *
  * Copyright (c) 2003 Aaron Geyer
+ * 
+ * Copyright (c) 2018 Felix Baumann on modifications
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -40,6 +42,33 @@
 #define MIN_BLOCKS (64*2)
 
 
+
+#ifdef JSON
+
+/* This function adds a "Blank" content object to the json output.
+ * 
+ * The property "empty_section_size" contains the number of empty 
+ * bytes the scanned section holds.
+ * 
+ * Since not all of the disk/medium is scanned, we can't
+ * guarantee it's emptieness, even if we don't find anything.
+ * After scanning a reasonably large part we will estimate
+ * the disk/medium to be blank though and store this
+ * estimation in the property "all_empty_guess".
+ */
+void add_blank(int level, int blank_blocks, int all_empty_guess)
+{
+    add_content_object(level, "Blank", "Q543287");
+    
+    add_property("all_empty_guess", 
+                 (all_empty_guess) ? "true" : "false");
+
+    add_property_u8("empty_section_size", (u8) (blank_blocks * BLOCK_SIZE));
+}
+#endif
+
+
+
 void detect_blank(SECTION *section, int level)
 {
   unsigned char *buffer;
@@ -61,7 +90,8 @@ void detect_blank(SECTION *section, int level)
 
   /* Determine number of blank blocks */
   for (i = 0; i < max_blocks; i++) {
-    if (get_buffer(section, i * block_size, block_size, (void **)&buffer) < block_size)
+    if (get_buffer(section, i * block_size, 
+                   block_size, (void **)&buffer) < block_size)
       break;
 
     for (j = 0; j < block_size; j++) {
@@ -75,8 +105,25 @@ void detect_blank(SECTION *section, int level)
   }
 
   if (blank_blocks >= max_blocks) {
+
+    #ifdef JSON
+    /* We expect the whole disk to be blank, 
+     * therefore the third argument is 1. */
+    add_blank(level, blank_blocks, 1);
+    #endif
+
     print_line(level, "Blank disk/medium");
+
   } else if (blank_blocks > MIN_BLOCKS) {
+
+
+    #ifdef JSON
+    /* Not all of the disk is blank,
+     * therefore the third argument is 0. */
+    add_blank(level, blank_blocks, 0);
+    #endif
+
+
     format_size(s, blank_blocks * block_size);
     print_line(level, "First %s are blank", s);
   }

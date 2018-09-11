@@ -1,0 +1,41 @@
+﻿
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>5.2. Output Hierarchy</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1">
+    <link rel="start" href="index.html" title="disktype Documentation">
+    <link rel="up" href="ch05.html" title="Chapter 5. JSON Modification">
+    <link rel="prev" href="ch05s01.html" title="5.1. Usage">
+    <link rel="next" href="ch05s03.html" title="5.3. Content Objects">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5.2. Output Hierarchy</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05s01.html">Prev</a> </td><th width="60%" align="center">Chapter 5. JSON Modification</th><td width="20%" align="right"> <a accesskey="n" href="ch05s03.html">Next</a></td></tr></table><hr></div><div class="section" lang="en">
+        <div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id893616"></a>5.2. Output Hierarchy</h2></div></div></div><p>
+           disktype yields a JSON object for each analyzed source. This object takes the hierarchical structure of the source into account and represents the content accordingly. That says, partitions that are found next to each other on a disk will also be next to each other in some content list of the output. However, a file system found inside a partition will be in a sub-content list assigned to this partition. That way the structure is maintained.
+        </p><p>
+           The JSON object consists of 4 key-value pairs with the keys <i>file kind</i>, <i>path</i>, and <i>size</i> with strings as values, as well as <i>content</i> which is an array.
+        </p><p>
+           Example: A result where no structure at all was detected, may look like this:
+        </p><p>
+        <pre>
+                {
+                   "file kind": "Regular file",
+                   "path": "/some-path/my-image.image",
+                   "size": "1024",
+                   "content": []
+                }
+        </pre>
+        </p><p>
+           <span><strong class="command">file kind</strong></span> holds either <i>Regular file</i> for any ordinary file, <i>Block device</i> for any device that conveys data in blocks through some buffer, <i>Character device</i> for any device that conveys data character by character or <i>Unknown kind</i> if it isn't recognized.
+</p><p>
+           <span><strong class="command">path</strong></span> contains the path to the given source.
+        </p><p>
+           <span><strong class="command">size</strong></span> contains the total number of bytes of the given source.
+        </p><p>
+           <span><strong class="command">content</strong></span> contains an array of so called <i>content objects</i> that each represent a structure found in the source.
+</p>
+    </div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ch05s01.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="ch05.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="ch05s03.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Chapter 5. JSON Modification </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 5.3. Content Objects</td></tr></table></div>
+</body>
+</html>

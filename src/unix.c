@@ -3,6 +3,7 @@
  * Detection of general Unix file systems
  *
  * Copyright (c) 2003 Christoph Pfisterer
+ * Copyright (c) 2018 Felix Baumann on modifications
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -52,11 +53,23 @@ void detect_jfs(SECTION *section, int level)
 
   get_string(buf + 101, 11, s);
   print_line(level + 1, "Volume name \"%s\"", s);
+  
+  #ifdef JSON
+  add_content_object(level, "Journaled File System", "Q1455872");
+
+  add_property_int("version", version);
+  add_property("volume_name", s);
+  #endif
 
   blocksize = get_le_long(buf + 24);
   blockcount = get_le_quad(buf + 8);
   format_blocky_size(s, blockcount, blocksize, "h/w blocks", NULL);
   print_line(level + 1, "Volume size %s", s);
+  
+  #ifdef JSON
+  add_property_u8("volume_size", (u8) (blockcount * blocksize));
+  add_property_u8("block_size", (u8) blocksize);
+  #endif
 }
 
 /*
@@ -86,13 +99,29 @@ void detect_xfs(SECTION *section, int level)
   get_string(buf + 0x6c, 12, s);
   print_line(level + 1, "Volume name \"%s\"", s);
 
+  #ifdef JSON
+  add_content_object(level, "XFS", "Q394011");
+
+  add_property_int("version", version);
+  add_property("volume_name", s);
+  #endif
+
   format_uuid(buf + 32, s);
   print_line(level + 1, "UUID %s", s);
 
+  #ifdef JSON
+  add_property("UUID", s);
+  #endif
+  
   blocksize = get_be_long(buf + 4);
   blockcount = get_be_quad(buf + 8);
   format_blocky_size(s, blockcount, blocksize, "blocks", NULL);
   print_line(level + 1, "Volume size %s", s);
+  
+  #ifdef JSON
+  add_property_u8("volume_size", (u8) (blockcount * blocksize));
+  add_property_u8("block_size", (u8) blocksize);
+  #endif
 }
 
 /*
@@ -122,30 +151,90 @@ void detect_ufs(SECTION *section, int level)
       if (magic == 0x00011954) {
 	print_line(level, "UFS file system, %d KiB offset, %s",
 		   at, get_ve_name(en));
+        
+        #ifdef JSON
+        add_content_object(level, "Unix File System", "Q1046338");
+
+        add_property("version", "1");
+        add_property_int("offset", at);
+        add_property_endianness(en);      
+        #endif
+        
       } else if (magic == 0x00095014) {
 	print_line(level, "UFS file system, %d KiB offset, long file names, %s",
 		   at, get_ve_name(en));
+
+        #ifdef JSON
+        add_content_object(level, "Unix File System", "Q1046338");
+
+        add_property("version", "1");
+        add_property_int("offset", at);
+        add_property_endianness(en);  
+        add_property("long_file_names", "true");
+        #endif
+        
       } else if (magic == 0x00195612) {
 	print_line(level, "UFS file system, %d KiB offset, fs_featurebits, %s",
 		   at, get_ve_name(en));
+        
+        #ifdef JSON
+        add_content_object(level, "Unix File System", "Q1046338");
+
+        add_property("version", "1");
+        add_property_int("offset", at);
+        add_property_endianness(en);  
+        add_property("fs_featurebits", "true");
+        #endif
+
       } else if (magic == 0x05231994) {
-	print_line(level, "UFS file system, %d KiB offset, fs_featurebits, >4GB support, %s",
-		   at, get_ve_name(en));
+	print_line(level, "UFS file system, %d KiB offset, fs_featurebits, "
+	           ">4GB support, %s", at, get_ve_name(en));
+
+        #ifdef JSON
+        add_content_object(level, "Unix File System", "Q1046338");
+
+        add_property("version", "1");
+        add_property_int("offset", at);
+        add_property_endianness(en);  
+        add_property("fs_featurebits", "true");
+        add_property("support_4GB", "true");
+        #endif
+
       } else if (magic == 0x19540119) {
 	print_line(level, "UFS2 file system, %d KiB offset, %s",
 		   at, get_ve_name(en));
+
+        #ifdef JSON
+        add_content_object(level, "Unix File System", "Q1046338");
+
+        add_property("version", "2");
+        add_property_int("offset", at);
+        add_property_endianness(en);  
+        #endif
+
       } else
 	continue;
 
       /* volume name by FreeBSD convention */
       get_string(buf + 680, 32, s);
       if (s[0])
+      {
 	print_line(level + 1, "Volume name \"%s\" (in superblock)", s);
 
+        #ifdef JSON
+        add_property("volume_name", s);
+        #endif
+      }
       /* last mount point */
       get_string(buf + 212, 255, s);  /* actually longer, but varies */
       if (s[0])
+      {
 	print_line(level + 1, "Last mounted at \"%s\"", s);
+
+        #ifdef JSON
+        add_property("last_mounted", s);
+        #endif
+      }
 
       /* volume name by Darwin convention */
       if (get_buffer(section, 7 * 1024, 1024, (void **)&buf) == 1024) {
@@ -155,6 +244,10 @@ void detect_ufs(SECTION *section, int level)
 	  get_string(buf + 18, namelen, s);  /* automatically limits to 255 */
 	  print_line(level + 1, "Volume name \"%s\" (in label v%lu)",
 		     s, get_ve_long(en, buf + 8));
+
+        #ifdef JSON
+        add_property("volume_name_darwin", s);
+        #endif
 	}
       }
 
@@ -183,12 +276,33 @@ void detect_sysv(SECTION *section, int level)
       if (get_ve_long(en, buf + 1016) == 0x2b5544) {
 	blocksize_code = get_ve_long(en, buf + 1020);
 	s[0] = 0;
+        
+        #ifdef JSON
+        add_content_object(level, "Xenix file system", "Q55340889");
+        add_property_endianness(en);
+        #endif
+
 	if (blocksize_code == 1)
+        {
 	  strcpy(s, "512 byte blocks");
+          #ifdef JSON
+          add_property_u8("block_size", (u8) 512);
+          #endif
+        }
 	else if (blocksize_code == 2)
+        {
 	  strcpy(s, "1 KiB blocks");
+          #ifdef JSON
+          add_property_u8("block_size", (u8) 1024);
+          #endif
+        }
 	else if (blocksize_code == 3)
+        {
 	  strcpy(s, "2 KiB blocks");
+          #ifdef JSON
+          add_property_u8("block_size", (u8) 2048);
+          #endif
+        }
 	else
 	  snprintf(s, 255, "unknown block size code %d", (int)blocksize_code);
 
@@ -200,15 +314,32 @@ void detect_sysv(SECTION *section, int level)
       if (get_ve_long(en, buf + 504) == 0xfd187e20) {
 	blocksize_code = get_ve_long(en, buf + 508);
 	s[0] = 0;
+
+        #ifdef JSON
+        add_content_object(level, "Boot File System", "Q4943815");
+        add_property_endianness(en);
+        #endif
+
 	if (blocksize_code == 1)
+        {
 	  strcpy(s, "512 byte blocks");
+          #ifdef JSON
+          add_property_u8("block_size", (u8) 512);
+          #endif
+        }
 	else if (blocksize_code == 2)
+        {
 	  strcpy(s, "1 KiB blocks");
+          #ifdef JSON
+          add_property_u8("block_size", (u8) 1024);
+          #endif
+        }
 	else
 	  snprintf(s, 255, "unknown block size code %d", (int)blocksize_code);
 
 	print_line(level, "SysV file system, %s, %s",
 		   get_ve_name(en), s);
+
 	return;
       }
     }
@@ -274,18 +405,25 @@ void detect_bsd_disklabel(SECTION *section, int level)
 
   partcount = get_le_short(buf + 138);
 
+  #ifdef JSON
+  add_content_object(level, "BSD disklabel", "Q1228785");
+  add_property_int("entries", partcount);
+  add_property_u4("sector_size", sectsize);
+  #endif
+
   if (partcount <= 8) {
     print_line(level, "BSD disklabel (at sector 1), %d partitions", partcount);
   } else if (partcount > 8 && partcount <= 16) {
-    print_line(level, "BSD disklabel (at sector 1), %d partitions (more than usual, but valid)",
-	       partcount);
+    print_line(level, "BSD disklabel (at sector 1), %d partitions "
+               "(more than usual, but valid)", partcount);
   } else if (partcount > 16) {
-    print_line(level, "BSD disklabel (at sector 1), %d partitions (broken, limiting to 16)",
-	       partcount);
+    print_line(level, "BSD disklabel (at sector 1), %d partitions "
+               "(broken, limiting to 16)", partcount);
     partcount = 16;
   }
   if (sectsize != 512) {
-    print_line(level + 1, "Unusual sector size %d bytes, your mileage may vary");
+    print_line(level + 1, "Unusual sector size %d bytes, "
+               "your mileage may vary");
   }
 
   min_offset = 0;
@@ -310,13 +448,15 @@ void detect_bsd_disklabel(SECTION *section, int level)
     base_offset = section->pos;
   } else if (section->pos == 0) {
     /* are we analyzing the slice alone? */
-    print_line(level + 1, "Adjusting offsets for disklabel in a DOS partition at sector %llu", min_offset >> 9);
+    print_line(level + 1, "Adjusting offsets for disklabel in a DOS partition"
+               " at sector %llu", min_offset >> 9);
     base_offset = min_offset;
   } else if (min_offset == 0) {
     /* assume relative offsets after all */
     base_offset = 0;
   } else {
-    print_line(level + 1, "Warning: Unable to adjust offsets, your mileage may vary");
+    print_line(level + 1, "Warning: Unable to adjust offsets, "
+               "your mileage may vary");
     base_offset = section->pos;
   }
 
@@ -335,6 +475,18 @@ void detect_bsd_disklabel(SECTION *section, int level)
     print_line(level + 1, "Type %d (%s)",
 	       types[i], get_name_for_bsdtype(types[i]));
 
+    #ifdef JSON
+    add_content_object(level, "Partition", "Q255215");
+    add_property("kind", "bsd");
+
+    char letter[2];
+    sprintf(letter, "%c", pn);
+    add_property("letter", letter);
+    
+    add_property_u8("size", (u8) (sizes[i] * 512));
+    add_property("type_name", get_name_for_bsdtype(types[i]));
+    #endif
+    
     if (types[i] == 0 || sizes[i] == 0)
       continue;
 
@@ -343,6 +495,10 @@ void detect_bsd_disklabel(SECTION *section, int level)
       print_line(level + 1, "(Illegal start offset, no detection)");
     } else if (offset == base_offset) {
       print_line(level + 1, "Includes the disklabel and boot code");
+      
+      #ifdef JSON
+      add_property("disklabel", "true");
+      #endif
 
       /* recurse for content detection, but carefully */
       analyze_recursive(section, level + 1,
@@ -376,17 +532,45 @@ void detect_bsd_loader(SECTION *section, int level)
   if (get_buffer(section, 0, 512, (void **)&buf) == 512) {
     if (get_le_short(buf + 0x1b0) == 0xbb66) {
       print_line(level, "FreeBSD boot manager (i386 boot0 at sector 0)");
+
+      #ifdef JSON
+      add_content_object(level, "FreeBSD boot loader", "Q55357194");
+
+      add_property("architecture", "i386");
+      add_property_int("boot_number", 0);
+      add_property_int("sector", 0);
+      #endif
+
     } else if (get_le_long(buf + 0x1f6) == 0 &&
 	       get_le_long(buf + 0x1fa) == 50000 &&
 	       get_le_short(buf + 0x1fe) == 0xaa55) {
       print_line(level, "FreeBSD boot loader (i386 boot1 at sector 0)");
+
+      #ifdef JSON
+      add_content_object(level, "FreeBSD boot loader", "Q55357194");
+
+      add_property("architecture", "i386");
+      add_property_int("boot_number", 1);
+      add_property_int("sector", 0);
+      #endif
+
     }
   }
 
   if (get_buffer(section, 1024, 512, (void **)&buf) == 512) {
     if (memcmp(buf + 2, "BTX", 3) == 0) {
-      print_line(level, "FreeBSD boot loader (i386 boot2/BTX %d.%02d at sector 2)",
+      print_line(level, 
+                 "FreeBSD boot loader (i386 boot2/BTX %d.%02d at sector 2)",
 		 (int)buf[5], (int)buf[6]);
+
+      #ifdef JSON
+      add_content_object(level, "FreeBSD boot loader", "Q55357194");
+
+      add_property("architecture", "i386");
+      add_property_int("boot_number", 2);
+      add_property_int("sector", 2);
+      #endif
+
     }
   }
 }
@@ -414,6 +598,12 @@ void detect_solaris_disklabel(SECTION *section, int level)
 
   print_line(level, "Solaris SPARC disklabel");
 
+  #ifdef JSON
+  add_content_object(level, "Solaris disklabel", "Q55505218");
+
+  add_property("kind", "SPARC");
+  #endif
+
   cylsize = (u8)get_be_short(buf + 436) * (u8)get_be_short(buf + 438);
   for (i = 0, off1 = 142, off2 = 444; i < 8; i++, off1 += 4, off2 += 8) {
     types[i] = get_be_short(buf + off1);
@@ -435,9 +625,24 @@ void detect_solaris_disklabel(SECTION *section, int level)
     print_line(level + 1, "Type %d",
                types[i]);
 
+    #ifdef JSON
+    add_content_object(level, "Partition", "Q255215");
+
+    add_property("kind", "sparc");
+
+    char letter[2];
+    sprintf(letter, "%c", pn);
+    add_property("letter", letter);
+    add_property_u8("size", (u8) (sizes[i] * 512));
+    #endif
+
     offset = starts[i] * 512;
     if (offset == 0) {
       print_line(level + 1, "Includes the disklabel");
+      
+      #ifdef JSON
+      add_property("disklabel", "true");
+      #endif
 
       /* recurse for content detection, but carefully */
       analyze_recursive(section, level + 1,
@@ -503,26 +708,64 @@ void detect_solaris_vtoc(SECTION *section, int level)
   version = get_le_long(buf + 16);
   if (version != 1) {
     print_line(level, "Solaris x86 disklabel, unknown version %lu", version);
+
+    #ifdef JSON
+    add_content_object(level, "Solaris disklabel", "Q55505218");
+
+    add_property("kind", "vtoc x86");
+    add_property_u4("version", version);
+    #endif
+
     return;
   }
   partcount = get_le_short(buf + 30);
   if (partcount > 16) {
-    print_line(level, "Solaris x86 disklabel, version 1, %d partitions (limiting to 16)",
-	       partcount);
+    print_line(level, "Solaris x86 disklabel, version 1, %d partitions "
+               "(limiting to 16)", partcount);
+
+    #ifdef JSON
+    add_content_object(level, "Solaris disklabel", "Q55505218");
+
+    add_property("kind", "vtoc x86");
+    add_property_int("version", 1);
+    add_property_int("entries", partcount);
+    #endif
+
     partcount = 16;
   } else {
     print_line(level, "Solaris x86 disklabel, version 1, %d partitions",
 	       partcount);
+
+    #ifdef JSON
+    add_content_object(level, "Solaris disklabel", "Q55505218");
+
+    add_property("kind", "vtoc x86");
+    add_property_int("version", 1);
+    add_property_int("entries", partcount);
+    #endif
+
   }
 
   sectorsize = get_le_short(buf + 28);
   if (sectorsize != 512)
-    print_line(level + 1, "Unusual sector size %d bytes, your mileage may vary",
-	       sectorsize);
-
+  {
+    print_line(level + 1, "Unusual sector size %d bytes, your mileage may "
+               "vary", sectorsize);
+  }
+  
+  #ifdef JSON
+  add_property_int("sector_size", sectorsize);
+  #endif
+  
   get_string(buf + 20, 8, s);
   if (s[0])
+  {
     print_line(level + 1, "Volume name \"%s\"", s);
+
+    #ifdef JSON
+    add_property("volume_name", s);
+    #endif
+  }
 
   for (i = 0, off = 72; i < partcount; i++, off += 12) {
     types[i] = get_le_short(buf + off);
@@ -543,10 +786,23 @@ void detect_solaris_vtoc(SECTION *section, int level)
 
     print_line(level + 1, "Type %d (%s)",
 	       types[i], get_name_for_vtoctype(types[i]));
+    
+    #ifdef JSON
+    add_content_object(level, "Partition", "Q255215");
+
+    add_property("kind", "vtoc");
+    add_property_int("number", i);
+    add_property_u8("size", (u8) (sizes[i] * 512));
+    add_property("type_name", get_name_for_vtoctype(types[i]));
+    #endif
 
     offset = (u8)starts[i] * 512;
     if (offset == 0) {
       print_line(level + 1, "Includes the disklabel");
+
+      #ifdef JSON
+      add_property("disklabel", "true");
+      #endif
 
       /* recurse for content detection, but carefully */
       analyze_recursive(section, level + 1,
@@ -586,6 +842,10 @@ void detect_qnx(SECTION *section, int level)
 
   /* tell the user */
   print_line(level, "QNX4 file system");
+  
+  #ifdef JSON
+  add_content_object(level, "QNX4 File System", "Q7265501");
+  #endif
 }
 
 /*
@@ -613,6 +873,15 @@ void detect_vxfs(SECTION *section, int level)
       blockcount = get_ve_long(en, buf + 36);
       format_blocky_size(s, blockcount, blocksize, "blocks", NULL);
       print_line(level + 1, "Volume size %s", s);
+
+      #ifdef JSON
+      add_content_object(level, "Veritas VxFS", "Q2064372");
+
+      add_property_int("version", version);
+      add_property_endianness(en);
+      add_property_u8("volume_size", (u8) (blockcount * blocksize));
+      add_property_u8("block_size", (u8) blocksize);
+      #endif
     }
   }
 }

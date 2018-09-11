@@ -3,6 +3,7 @@
  * Layered data source for Virtual PC hard disk images.
  *
  * Copyright (c) 2003 Christoph Pfisterer
+ * Copyright (c) 2018 Felix Baumann on modifications
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -55,6 +56,34 @@ static SOURCE *init_vhd_source(SECTION *section, int level,
 static int read_block_vhd(SOURCE *s, u8 pos, void *buf);
 static void close_vhd(SOURCE *s);
 
+#ifdef JSON
+
+/* This function adds a "Windows virtual PC disk image" object to the 
+ * current json content list.
+ * 
+ * Properties:
+ * 
+ *     disk_size:   size of the whole image
+ * 
+ *     kind:        {fixed size, dynamic size, differential, unknown kind}
+ * 
+ */
+void add_win_virt_pc_json(int level, int type, u8 total_size)
+{
+    add_content_object(level, "Windows virtual PC disk image", "Q55357928");
+
+    switch(type)
+    {
+        case 2: add_property("kind", "fixed size"); break;
+        case 3: add_property("kind", "dynamic size"); break;
+        case 4: add_property("kind", "differential"); break;
+        default: add_property("kind", "unknown kind"); break;
+    }
+
+    add_property_u8("disk_size", total_size);
+}
+#endif
+
 /*
  * cd image detection
  */
@@ -91,6 +120,10 @@ void detect_vhd(SECTION *section, int level)
 
   type = get_be_long(buf + 0x3c);
   total_size = get_be_quad(buf + 0x28);  /* copy at 0x30 ... ??? */
+
+  #ifdef JSON
+  add_win_virt_pc_json(level, type, total_size);
+  #endif
 
   if (type == 2) {
     print_line(level, "Connectix Virtual PC hard disk image, fixed size");
@@ -293,5 +326,33 @@ static void close_vhd(SOURCE *s)
     free(vs->chunks);
   }
 }
+
+#ifdef JSON
+/* This is the main function responsible for tests in this class (vpc.c). */
+void test_vpc()
+{
+    /* level 0, fixed size, 4096 bytes*/
+    add_win_virt_pc_json(0, 2, 4096);
+    
+    /* wikidata */
+    char wikidata[10];
+    extract_chars(&given_file.content[0].wikidata, wikidata);
+    assert(equal_chars(wikidata, "Q55357928"));
+
+    assert(given_file.content[0].number_of_properties == 2);
+
+    /* kind */
+    char kind[11];
+    extract_chars(&given_file.content[0].properties[0].value, kind);
+    assert(equal_chars(kind, "fixed size"));
+    
+    /* size */
+    char size[5];
+    extract_chars(&given_file.content[0].properties[1].value, size);
+    assert(equal_chars(size, "4096"));
+
+    reset_json();
+}
+#endif
 
 /* EOF */

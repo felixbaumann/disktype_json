@@ -3,6 +3,7 @@
  * Layered data source for CD images in raw mode.
  *
  * Copyright (c) 2003 Christoph Pfisterer
+ * Copyright (c) 2018 Felix Baumann on modifications
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -69,10 +70,22 @@ void detect_cdimage(SECTION *section, int level)
   if (mode == 1) {
     /* standard data track */
     print_line(level, "Raw CD image, Mode 1");
+    
+    #ifdef JSON
+    add_content_object(level, "Raw CD image", "Q3930596");
+    add_property("mode", "1");
+    #endif
+    
     off = 16;
   } else if (mode == 2) {
     /* free-form track, assume XA form 1 */
     print_line(level, "Raw CD image, Mode 2, assuming Form 1");
+    
+    #ifdef JSON
+    add_content_object(level, "Raw CD image", "Q3930596");
+    add_property("mode", "2");
+    #endif
+
     off = 24;
   } else
     return;

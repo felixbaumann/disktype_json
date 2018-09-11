@@ -3,6 +3,7 @@
  * Detection of (Unix) archive formats
  *
  * Copyright (c) 2003 Christoph Pfisterer
+ * Copyright (c) 2018 Felix Baumann on modifications
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -65,26 +66,71 @@ void detect_archive(SECTION *section, int level)
     }
   }
   if (sum == stored_sum) {
+
+    #ifdef JSON
+    add_content_object(level, "tar archive", "Q283579");
+    #endif
+
     if (memcmp((char *)buf + 257, "ustar  \0", 8) == 0) {
+
+    #ifdef JSON
+    add_property("version", "GNU");
+    #endif
+
       print_line(level, "GNU tar archive");
     } else if (memcmp((char *)buf + 257, "ustar\0", 6) == 0) {
+
+    #ifdef JSON
+    add_property("version", "POSIX");    
+    #endif
+
       print_line(level, "POSIX tar archive");
     } else {
+
+    #ifdef JSON
+    add_property("version", "Pre-POSIX");
+    #endif
+
       print_line(level, "Pre-POSIX tar archive");
     }
   }
 
   /* cpio */
   if (get_le_short(buf) == 070707) {
+
+    #ifdef JSON
+    add_content_object(level, "cpio archive", "Q285296");
+    add_property("encoding", "binary");
+    add_property("endianness", "little");
+    #endif
+
     print_line(level, "cpio archive, little-endian binary");
   } else if (get_be_short(buf) == 070707) {
+
+    #ifdef JSON
+    add_content_object(level, "cpio archive", "Q285296");
+    add_property("encoding", "binary");
+    add_property("endianness", "big");
+    #endif
+
     print_line(level, "cpio archive, big-endian binary");
   } else if (memcmp(buf, "07070", 5) == 0) {
+
+    #ifdef JSON
+    add_content_object(level, "cpio archive", "Q285296");
+    add_property("encoding", "ascii");
+    #endif
+
     print_line(level, "cpio archive, ascii");
   }
 
   /* bar */
   if (memcmp(buf + 65, "\x56\0", 2) == 0) {
+
+    #ifdef JSON
+    add_content_object(level, "bar archive", "Q55357721");
+    #endif
+
     print_line(level, "bar archive");
   }
 
@@ -93,11 +139,32 @@ void detect_archive(SECTION *section, int level)
     magic = get_ve_long(en, buf + 24);
 
     if (magic == 60011) {
-      print_line(level, "dump: 4.1BSD (or older) or Sun OFS, %s", get_ve_name(en));
+
+      #ifdef JSON
+      add_content_object(level, "BSD", "Q34264");
+      add_property("version", "4.1");
+      #endif
+
+      print_line(level, "dump: 4.1BSD (or older) or Sun OFS, %s",
+                 get_ve_name(en));
     } else if (magic == 60012) {
-      print_line(level, "dump: 4.2BSD (or newer) without IDC or Sun NFS, %s", get_ve_name(en));
+
+      #ifdef JSON
+      add_content_object(level, "BSD", "Q34264");
+      add_property("version", "4.2");
+      #endif
+
+      print_line(level, "dump: 4.2BSD (or newer) without IDC or Sun NFS, %s",
+                 get_ve_name(en));
     } else if (magic == 60013) {
-      print_line(level, "dump: 4.2BSD (or newer) with IDC, %s", get_ve_name(en));
+
+      #ifdef JSON
+      add_content_object(level, "BSD", "Q34264");
+      add_property("version", "4.2");
+      #endif
+
+      print_line(level, "dump: 4.2BSD (or newer) with IDC, %s",
+                 get_ve_name(en));
     } else if (magic == 60014) {
       print_line(level, "dump: Convex Storage Manager, %s", get_ve_name(en));
     }

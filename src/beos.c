@@ -4,6 +4,8 @@
  *
  * Copyright (c) 2003-2006 Christoph Pfisterer
  * Based on a contribution by Shadowcaster
+ * 
+ * Copyright (c) 2018 Felix Baumann on modifications
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -59,6 +61,25 @@ void detect_bfs(SECTION *section, int level)
 	if (s[0])
 	  print_line(level + 1, "Volume name \"%s\"", s);
 
+        #ifdef JSON
+        add_content_object(level, "BeOS File System", "Q812816");
+
+        if (s[0])
+          add_property("volume_name", s);
+
+        if (off == 0)
+        {
+          add_property("placement", "Apple");
+        }
+        else 
+        {
+          add_property("placement", "Intel");
+        }
+
+        add_property_endianness(en);
+        #endif
+
+        
 	/* get size */
 	blocksize = get_ve_long(en, buf + 40);
 	blockcount = get_ve_quad(en, buf + 48);
@@ -68,6 +89,11 @@ void detect_bfs(SECTION *section, int level)
 	     blocksize == 1 << get_ve_long(en, buf + 44)
 	*/
 
+        #ifdef JSON
+        add_property_u8("volume_size", (u8) (blockcount * blocksize));
+        add_property_u8("block_size", (u8) blocksize);
+        #endif
+        
 	format_blocky_size(s, blockcount, blocksize, "blocks", NULL);
 	print_line(level + 1, "Volume size %s", s);
 
@@ -79,6 +105,8 @@ void detect_bfs(SECTION *section, int level)
 
 /*
  * BeOS boot loader
+ * aka Bootman
+ * used in BeOS, Zeta and Haiku
  */
 
 void detect_beos_loader(SECTION *section, int level)
@@ -91,12 +119,32 @@ void detect_beos_loader(SECTION *section, int level)
   if (get_buffer(section, 0, 512, (void **)&buf) < 512)
     return;
 
-  if (find_memory(buf, 512, "Be Boot Loader", 14) >= 0)
+  if (find_memory(buf, 512, "Be Boot Loader", 14) >= 0) {
     print_line(level, "BeOS boot loader");
-  if (find_memory(buf, 512, "yT Boot Loader", 14) >= 0)
+
+    #ifdef JSON
+    add_content_object(level, "Bootman", "Q4035320");
+    add_property("system", "BeOS");
+    #endif
+
+  }
+  if (find_memory(buf, 512, "yT Boot Loader", 14) >= 0) {
     print_line(level, "ZETA/yellowTab boot loader");
-  if (find_memory(buf, 512, "\x04" "beos\x06" "system\x05" "zbeos", 18) >= 0)
+
+    #ifdef JSON
+    add_content_object(level, "Bootman", "Q4035320");
+    add_property("system", "Zeta");
+    #endif  
+
+  }
+  if (find_memory(buf, 512, "\x04" "beos\x06" "system\x05" "zbeos", 18) >= 0) {
     print_line(level, "Haiku boot loader");
+
+    #ifdef JSON
+    add_content_object(level, "Bootman", "Q4035320");
+    add_property("system", "Haiku");
+    #endif
+  }
 }
 
 /* EOF */

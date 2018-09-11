@@ -1,0 +1,229 @@
+﻿
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>5.3. Content Objects</title>
+    <meta name="generator" content="DocBook XSL Stylesheets V1.69.1">
+    <link rel="start" href="index.html" title="disktype Documentation">
+    <link rel="up" href="ch05.html" title="Chapter 5. JSON Modification">
+    <link rel="prev" href="ch05s03.html" title="5.3 Content Objects">
+    <link rel="next" href="ch05s04_01.html" title="5.4 Amix, Blank, Boot Disk">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="navheader">
+        <table width="100%" summary="Navigation header">
+            <tr>
+                <th colspan="3" align="center">5.4. Content Objects</th>
+            </tr>
+            <tr>
+                <td width="20%" align="left"><a accesskey="p" href="ch05s03.html">Prev</a> </td>
+                <th width="60%" align="center">Chapter 5. JSON Modification</th>
+                <td width="20%" align="right"> <a accesskey="n" href="ch05s04_01.html">Next</a></td>
+            </tr>
+        </table><hr>
+    </div><div class="section" lang="en">
+        <div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="id893616"></a>5.4. Content Objects List</h2></div></div></div>
+
+
+
+
+
+
+
+
+
+            <div class="toc">
+        <p><b>Table of Contents</b></p>
+        <dl>
+                    <!-- ch05s04_01.html -->
+                    <dt><span class="section"><a href="ch05s04_01.html#id5.4.1.">5.4.1 Amiga Unix</a></span></dt>
+                    <dt><span class="section"><a href="ch05s04_01.html#id5.4.2.">5.4.2 Blank</a></span></dt>
+                    <dt><span class="section"><a href="ch05s04_01.html#id5.4.3.">5.4.3 Boot disk</a></span></dt>
+                    <!-- ch05s04_02.html -->
+                    <dt><span class="section"><a href="ch05s04_02.html">5.4.4. Boot loader</a></span></dt>
+                    <dd>
+                        <dl>
+                            <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.1.">5.4.4.1. FreeBSD boot loader</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.2.">5.4.4.2. GRUB boot loader</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.3.">5.4.4.3. LILO boot loader</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.4.">5.4.4.4. Linux kernel built-in loader</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.5.">5.4.4.5. MS-DOS boot loader</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.6.">5.4.4.6. SYSLINUX boot loader</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.7.">5.4.4.7. Windows 9x boot loader</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_02.html#id5.4.4.8.">5.4.4.8. Windows NTLDR</a></span></dt>
+                        </dl>
+                    </dd>
+                    <!-- ch05s04_03.html -->
+                    <dt><span class="section"><a href="ch05s04_03.html#id5.4.5.">5.4.5 Bootman</a></span></dt>
+                    <dt><span class="section"><a href="ch05s04_03.html#id5.4.6.">5.4.6 BSD</a></span></dt>
+                    <dt><span class="section"><a href="ch05s04_03.html#id5.4.7.">5.4.7 BSD Disklabel</a></span></dt>
+                    <dd>
+                        <dl>
+                            <dt><span class="section"><a href="ch05s04_03.html#id5.4.7.1.">5.3.7.1 Solaris Disklabel</a></span></dt>
+                        </dl>
+                    </dd>
+                    <!-- ch05s04_04.html -->
+                    <dt><span class="section"><a href="ch05s04_04.html#id5.4.8.">5.4.8. Compact Disk</a></span></dt>
+                    <dd>
+                        <dl>
+                            <dt><span class="section"><a href="ch05s04_04.html#id5.4.8.1.">5.4.8.1. Audio CD</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_04.html#id5.4.8.2.">5.4.8.2. CD-ROM</a></span></dt>
+                        </dl>
+                    </dd>
+                    <dt><span class="section"><a href="ch05s04_04.html#id5.4.9.">5.4.9. Debian split floppy</a></span></dt>
+                    <dt><span class="section"><a href="ch05s04_04.html#id5.4.10.">5.4.10. Ext3 external journal</a></span></dt>
+                    <!-- ch05s04_05.html -->
+                    <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.">5.4.11. File Format</a></span></dt>
+                    <dd>
+                        <dl>
+                            <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.">5.4.11.1. Archive file format</a></span></dt>
+                            <dd>
+                                <dl>
+                                    <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.1.">5.4.11.1.1. Broker archive</a></span></dt>
+                                    <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.2.">5.4.11.1.2. Cloop image</a></span></dt>
+                                    <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.3.">5.4.11.1.3. Disk Image</a></span></dt>
+                                    <dd>
+                                        <dl>
+                                            <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.3.1.">5.4.11.1.3.1. Apple UDIF disk image</a></span></dt>
+                                            <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.3.2.">5.4.11.1.3.2. Windows virtual PC disk image</a></span></dt>
+                                        </dl>
+                                    </dd>
+                                    <dt><span class="section"><a href="ch05s04_05.html#id5.4.11.1.4.">5.4.11.1.4. tar archive</a></span></dt>
+                                </dl>
+                            </dd>
+                            <!-- ch05s04_06.html -->
+                            <dt><span class="section"><a href="ch05s04_06.html#id5.4.11.2.">5.4.11.2. bzip2 archive</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_06.html#id5.4.11.3.">5.4.11.3. Compress file</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_06.html#id5.4.11.4.">5.4.11.4. Cpio archive</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_06.html#id5.4.11.5.">5.4.11.5. gzip archive</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_06.html#id5.4.11.6.">5.4.11.6. Raw CD image</a></span></dt>
+                        </dl>
+                    </dd>
+                    <!-- ch05s04_07.html -->
+                    <dt><span class="section"><a href="ch05s04_07.html#id5.4.12.">5.4.12. File System</a></span></dt>
+                    <dd>
+                        <dl>
+                            <dt><span class="section"><a href="ch05s04_07.html#id5.4.12.1.">5.4.12.1. Amiga Ami-File-Safe</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_07.html#id5.4.12.2.">5.4.12.2. Amiga Fast File System</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_07.html#id5.4.12.3.">5.4.12.3. Amiga Old File System</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_07.html#id5.4.12.4.">5.4.12.4. Amiga Professional File System</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_07.html#id5.4.12.5.">5.4.12.5. Amiga Smart File System</a></span></dt>
+                            <!-- ch05s04_08.html -->
+                            <dt><span class="section"><a href="ch05s04_08.html#id5.4.12.6.">5.4.12.6. Apple HFS</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_08.html#id5.4.12.7.">5.4.12.7. Apple HFS Plus</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_08.html#id5.4.12.8.">5.4.12.8. BeOS File System</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_08.html#id5.4.12.9.">5.4.12.9. Berkeley Fast File System</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_08.html#id5.4.12.10.">5.4.12.10. Boot File System</a></span></dt>
+                            <!-- ch05s04_09.html -->
+                            <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.11.">5.4.12.11. ExFAT</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.12.">5.4.12.12. Ext2</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.13.">5.4.12.13. FAT</a></span></dt>
+                            <dd>
+                                <dl>
+                                    <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.13.1.">5.4.12.13.1. FAT12</a></span></dt>
+                                    <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.13.2.">5.4.12.13.2. FAT16</a></span></dt>
+                                    <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.13.3.">5.4.12.13.3. FAT32</a></span></dt>
+                                </dl>
+                            </dd>
+                            <dt><span class="section"><a href="ch05s04_09.html#id5.4.12.14.">5.4.12.14. FATX</a></span></dt>
+                            <!-- ch05s04_10.html -->
+                            <dt><span class="section"><a href="ch05s04_10.html#id5.4.12.15.">5.4.12.15. High Performance File System</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_10.html#id5.4.12.16.">5.4.12.16. High Sierra Format</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_10.html#id5.4.12.17.">5.4.12.17. ISO9660</a></span></dt>
+                            <!-- ch05s04_11.html -->
+                            <dt><span class="section"><a href="ch05s04_11.html#id5.4.12.18.">5.4.12.18. Journaled File System</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_11.html#id5.4.12.19.">5.4.12.19. Journaling File System</a></span></dt>
+                            <dd>
+                                <dl>
+                                    <dt><span class="section"><a href="ch05s04_11.html#id5.4.12.19.1.">5.4.12.19.1. Ext3</a></span></dt>
+                                    <dt><span class="section"><a href="ch05s04_11.html#id5.4.12.19.2.">5.4.12.19.2. Ext4</a></span></dt>
+                                    <dt><span class="section"><a href="ch05s04_11.html#id5.4.12.19.3.">5.4.12.19.3. ReiserFS</a></span></dt>
+                                </dl>
+                            </dd>
+                            <!-- ch05s04_12.html -->
+                            <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.20.">5.4.12.20. Linux cramfs</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.21.">5.4.12.21. Linux romfs</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.22.">5.4.12.22. Linux squashfs</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.23.">5.4.12.23. Macintosh File System</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.24.">5.4.12.24. MINIX</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.25.">5.4.12.25. NTFS</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_12.html#id5.4.12.26.">5.4.12.26. Opera file system</a></span></dt>
+                            <!-- ch05s04_13.html -->
+                            <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.27.">5.4.12.27. QNX4 File System</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.28.">5.4.12.28. Reiser4</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.29.">5.4.12.29. Universal Disk Format</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.30.">5.4.12.30. Unix File System</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.31.">5.4.12.31. Veritas VxFS</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.32.">5.4.12.32. Xenix file system</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_13.html#id5.4.12.33.">5.4.12.33. XFS</a></span></dt>
+                        </dl>
+                    </dd>
+                    <!-- ch05s04_14.html -->
+                    <dt><span class="section"><a href="ch05s04_14.html#id5.4.13.">5.4.13. Linux</a></span></dt>
+                    <dt><span class="section"><a href="ch05s04_14.html#id5.4.14.">5.4.14. Linux swap</a></span></dt>
+                    <dt><span class="section"><a href="ch05s04_14.html#id5.4.15.">5.4.15. LVM</a></span></dt>
+                    <dt><span class="section"><a href="ch05s04_14.html#id5.4.16.">5.4.16. MS-DOS</a></span></dt>
+                    <dt><span class="section"><a href="ch05s04_14.html#id5.4.17.">5.4.17. NetBSD</a></span></dt>
+
+                    <!-- ch05s04_15.html -->
+                    <dt><span class="section"><a href="ch05s04_15.html#id5.4.18.">5.4.18. Partition</a></span></dt>
+                    <dt><span class="section"><a href="ch05s04_15.html#id5.4.19.">5.4.19. Partition Table</a></span></dt>
+                    <dd>
+                        <dl>
+                            <dt><span class="section"><a href="ch05s04_15.html#id5.4.19.1.">5.4.19.1. Amiga rigid disk partition map</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_15.html#id5.4.19.2.">5.4.19.2. Apple partition map</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_15.html#id5.4.19.3.">5.4.19.3. Atari ST partition map</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_15.html#id5.4.19.4.">5.4.19.4. GPT partition map</a></span></dt>
+                            <dt><span class="section"><a href="ch05s04_15.html#id5.4.19.5.">5.4.19.5. MBR partition table</a></span></dt>
+                        </dl>
+                    </dd>
+
+                    <!-- ch05s04_16.html -->
+                    <dt><span class="section"><a href="ch05s04_16.html#id5.4.20.">5.4.20. RAID Disk</a></span></dt>
+                    <dt><span class="section"><a href="ch05s04_16.html#id5.4.21.">5.4.21. Track</a></span></dt>
+                    <dd>
+                        <dl>
+                            <dt><span class="section"><a href="ch05s04_16.html#id5.4.21.1.">5.4.21.1. Audio track</a></span></dt>
+                        </dl>
+                    </dd>
+                    <!-- ch05s04_17.html -->
+                    <dt><span class="section"><a href="ch05s04_17.html#id5.4.22.">5.4.22. Data types</a></span></dt>
+        </dl>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+    </div>
+    <div class="navfooter">
+        <hr><table width="100%" summary="Navigation footer">
+            <tr>
+                <td width="40%" align="left"><a accesskey="p" href="ch05s03.html">Prev</a> </td>
+                <td width="20%" align="center"><a accesskey="u" href="ch05.html">Up</a></td>
+                <td width="40%" align="right"> <a accesskey="n" href="ch05s04_01.html">Next</a></td>
+            </tr>
+            <tr>
+                <td width="40%" align="left" valign="top">5.3. JSON Objects</td>
+                <td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td>
+                <td width="40%" align="right" valign="top">5.4. Amix, Blank, Boot Disk</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

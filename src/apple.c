@@ -3,6 +3,7 @@
  * Detection of Apple partition maps and file systems
  *
  * Copyright (c) 2003 Christoph Pfisterer
+ * Copyright (c) 2018 Felix Baumann on modifications
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -55,6 +56,12 @@ void detect_apple_partmap(SECTION *section, int level)
 
   magic = get_be_short(buf);
   if (magic == 0x5453) {
+    
+    #ifdef JSON
+    add_content_object(level, "Apple partition map", "Q375944");
+    add_property("version", "old style");
+    #endif
+
     print_line(level, "Old-style Apple partition map");
     return;
   }
@@ -63,6 +70,14 @@ void detect_apple_partmap(SECTION *section, int level)
 
   /* get partition count and print info */
   count = get_be_long(buf + 4);
+
+  #ifdef JSON
+  add_content_object(level, "Apple partition map", "Q375944");
+
+  add_property("version", "new style");
+  add_property_int("entries", count);
+  #endif
+
   print_line(level, "Apple partition map, %d entries", count);
 
   for (i = 1; i <= count; i++) {
@@ -72,6 +87,15 @@ void detect_apple_partmap(SECTION *section, int level)
     if (i > 1 && get_buffer(section, i * 512, 512, (void **)&buf) < 512)
       return;
 
+    #ifdef JSON
+    add_content_object(level, "Partition", "Q255215");
+
+    add_property("kind", "apple");
+    add_property_int("number", i);
+    #endif
+
+    
+    
     /* check signature */
     if (get_be_short(buf) != 0x504D) {
       print_line(level, "Partition %d: invalid signature, skipping", i);
@@ -79,15 +103,33 @@ void detect_apple_partmap(SECTION *section, int level)
     }
 
     /* get position and size */
+    /* with 'start' being the starting sector */
     start = get_be_long(buf + 8);
+    /* and 'size' being the number of sectors */
     size = get_be_long(buf + 12);
     sprintf(append, " from %llu", start);
     format_blocky_size(s, size, 512, "sectors", append);
+    
+    #ifdef JSON
+    add_property_u8("size", (u8) (size * 512));
+    add_property_int("sector_size", 512);
+    add_property_u8("start_sector", start);
+    #endif
+
+    
+    /* s is the size here 
+     * (bytes, sectors of 512 bytes each and starting sector */
     print_line(level, "Partition %d: %s",
 	       i, s);
 
     /* get type */
     get_string(buf + 48, 32, s);
+    /* s is really just a type string */
+    
+    #ifdef JSON
+    add_property("type_name", s);
+    #endif
+
     print_line(level+1, "Type \"%s\"", s);
 
     /* recurse for content detection */
@@ -119,9 +161,19 @@ void detect_apple_volume(SECTION *section, int level)
   version = get_be_short(buf + 2);
 
   if (magic == 0xD2D7) {
+
+    #ifdef JSON
+    add_content_object(level, "Macintosh File System", "Q4043554");
+    #endif
+
     print_line(level, "MFS file system");
 
   } else if (magic == 0x4244) {
+
+    #ifdef JSON
+    add_content_object(level, "Apple HFS", "Q1058465");
+    #endif
+
     print_line(level, "HFS file system");
     blockcount = get_be_short(buf + 18);
     blocksize = get_be_long(buf + 20);
@@ -129,12 +181,28 @@ void detect_apple_volume(SECTION *section, int level)
 
     get_pstring(buf + 36, s);
     format_ascii(s, t);
+    
+    #ifdef JSON
+    add_property("volume_name", t);
+    #endif
+    
     print_line(level + 1, "Volume name \"%s\"", t);
 
     format_blocky_size(s, blockcount, blocksize, "blocks", NULL);
+
+    #ifdef JSON
+    add_property_u8("volume_size", (u8) (blockcount * blocksize));
+    add_property_u8("block_size", (u8) blocksize);
+    #endif
+
     print_line(level + 1, "Volume size %s", s);
 
     if (get_be_short(buf + 0x7c) == 0x482B) {
+
+        #ifdef JSON
+        add_property("wrapper", "true");
+        #endif
+
       print_line(level, "HFS wrapper for HFS Plus");
 
       offset = (u8)get_be_short(buf + 0x7e) * blocksize +
@@ -146,12 +214,23 @@ void detect_apple_volume(SECTION *section, int level)
     }
 
   } else if (magic == 0x482B) {
+
+    #ifdef JSON
+    add_content_object(level, "Apple HFS Plus", "Q1071337");
+    #endif
+
     print_line(level, "HFS Plus file system");
 
     blocksize = get_be_long(buf + 40);
     blockcount = get_be_long(buf + 44);
 
     format_blocky_size(s, blockcount, blocksize, "blocks", NULL);
+
+    #ifdef JSON
+    add_property_u8("volume_size", (u8) (blockcount * blocksize));
+    add_property_u8("block_size", (u8) blocksize);
+    #endif
+
     print_line(level + 1, "Volume size %s", s);
 
     /* To read the volume name, we have to parse some structures...
@@ -193,6 +272,11 @@ void detect_apple_volume(SECTION *section, int level)
       return;  /* parent folder id is not "root parent" */
     volnamelen = get_be_short(buf + 20);
     format_utf16_be(buf + 22, volnamelen * 2, t);
+
+    #ifdef JSON
+    add_property("volume_name", t);
+    #endif
+
     print_line(level + 1, "Volume name \"%s\"", t);
   }
 }
@@ -214,7 +298,13 @@ void detect_udif(SECTION *section, int level)
     return;
 
   if (memcmp(buf, "koly", 4) == 0) {
-    print_line(level, "Apple UDIF disk image, content detection may or may not work...");
+
+    #ifdef JSON
+    add_content_object(level, "Apple UDIF disk image", "Q14757791");
+    #endif
+
+    print_line(level, "Apple UDIF disk image, "
+               "content detection may or may not work...");
   }
 }
 

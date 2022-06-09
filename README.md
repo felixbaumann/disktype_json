@@ -2,8 +2,8 @@
 
 This is a modification of the disktype tool that yields results in JSON
 instead of plain text. 
-Like the original disktype tool, it's purpose is to analyse a given file,
-or disk and detect content like file systems, partitions, boot loaders etc.
+Like the original disktype tool, its purpose is to analyse a given file,
+or disk and to detect content like file systems, partitions, boot loaders etc.
 
 
 
